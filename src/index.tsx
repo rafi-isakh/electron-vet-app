@@ -1,14 +1,12 @@
 import React, { Fragment } from 'react';
 import { render } from 'react-dom';
-import { createHashHistory } from 'history';
 import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import configureStore from './store';
+import { configureStore, history } from './store';
 import Root from './containers/Root';
 
 const store = configureStore();
-const history = createHashHistory();
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 

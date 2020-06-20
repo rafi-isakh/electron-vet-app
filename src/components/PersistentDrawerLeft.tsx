@@ -88,7 +88,7 @@ export default function PersistentDrawerLeft(props: Props) {
             </ListItemIcon>
             <ListItemText primary="Pasien" />
           </ListItem>
-          <ListItem button key="rm" component={Link} to={routes.PATIENT}>
+          <ListItem button key="rm" component={Link} to={routes.HOME}>
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
