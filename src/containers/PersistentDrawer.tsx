@@ -2,9 +2,9 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import PersistentDrawerLeft from '../components/PersistentDrawerLeft';
 import { setDrawer } from '../actions/drawer';
-import { counterStateType } from '../reducers/types';
+import { stateTypeObject } from '../reducers/types';
 
-function mapStateToProps(state: counterStateType) {
+function mapStateToProps(state: stateTypeObject) {
   return {
     drawer: state.drawer
   };

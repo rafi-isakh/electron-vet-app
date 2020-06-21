@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { counterStateType, Dispatch } from '../reducers/types';
+import { Dispatch, stateTypeObject } from '../reducers/types';
 import Patient from '../components/Patient';
 import { setActiveProfile } from '../actions/activeProfile';
 
-function mapStateToProps(state: counterStateType) {
+function mapStateToProps(state: stateTypeObject) {
   return {
     drawer: state.drawer,
     activeProfile: state.activeProfile
