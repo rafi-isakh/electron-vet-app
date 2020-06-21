@@ -22,10 +22,19 @@ function createData(name: string, address: string, phone: string) {
   return { name, address, phone };
 }
 
+function createPetData(name: string, type: string, breed: string) {
+  return { name, type, breed }
+}
+
 const rows = [
   createData('Irsyad Haniif', 'Jl. Permata Taman Sari Asri III no. 9', '081394708545'),
   createData('Oskar Dion isakh', 'Jl. Gumuruh Belakang no. 55', '0818618061')
 ];
+
+const pets = [
+  createPetData ('Cici', 'Kucing', 'Angora'),
+  createPetData ('Kimi', 'Kucing', 'Persia')
+]
 
 export default function Patient(props: Props) {
   const classes = patientPageStyle();
@@ -68,7 +77,7 @@ export default function Patient(props: Props) {
                     <VisibilityIcon />
                   </IconButton>
                 </Tooltip>
-                <DetailDialog open={open} onClose={handleClose} activeProfile={activeProfile}/>
+                <DetailDialog open={open} onClose={handleClose} activeProfile={activeProfile} pets={pets}/>
                 <Tooltip title="Edit">
                   <IconButton aria-label="edit">
                     <EditIcon />
