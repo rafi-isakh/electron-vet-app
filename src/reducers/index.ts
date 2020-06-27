@@ -5,6 +5,7 @@ import { firebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
 import drawer from './drawer';
 import activeProfile from './activeProfile';
+import dialogState from './dialogState';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -12,6 +13,7 @@ export default function createRootReducer(history: History) {
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     drawer,
-    activeProfile
+    activeProfile,
+    dialogState
   });
 }

@@ -7,11 +7,12 @@ import addPatientDialogStyle from './AddPatientDialogStyle';
 export interface DetailDialogProps {
   open: boolean;
   onClose: (value: string) => void;
+  dialogState: any;
 }
 
 function AddPatientDialog(props: DetailDialogProps) {
   const classes = addPatientDialogStyle()
-  const { onClose, open } = props;
+  const { onClose, open, dialogState } = props;
 
   const handleClose = () => {
     onClose("Close dialog");
@@ -23,12 +24,13 @@ function AddPatientDialog(props: DetailDialogProps) {
       aria-labelledby="add-patient-dialog" 
       open={open} 
       maxWidth="sm" 
-      fullWidth={true}>
+      fullWidth={true}
+      disableBackdropClick>
       <DialogTitle disableTypography id="simple-dialog-title" className={classes.dialogTitle}>
         <PersonIcon className={classes.dialogTitleIcon}/>
         <h2>Data pasien</h2>
       </DialogTitle>
-      <AddPatientForm />
+      <AddPatientForm addDialogState={dialogState}/>
     </Dialog>
   );
 }

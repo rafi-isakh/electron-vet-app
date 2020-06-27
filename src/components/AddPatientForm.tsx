@@ -4,9 +4,23 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import patientFormStyle from "./AddPatienFormStyle";
 
-export default function AddPatientForm() {
+export interface AddDialogProps {
+  addDialogState: any;
+}
 
+export default function AddPatientForm(props: AddDialogProps) {
+
+  const { addDialogState } = props
   const classes =  patientFormStyle();
+
+  const handleSaveButton = () => {
+    addDialogState();
+  }
+
+  const handleCancelButton = () => {
+    addDialogState();
+  }
+
   return(
     <div>
       <form className={classes.root} noValidate autoComplete="off">
@@ -19,6 +33,7 @@ export default function AddPatientForm() {
           variant="contained"
           color="default"
           size="small"
+          onClick={handleSaveButton}
           startIcon={<SaveIcon color="primary"/>}
         >
           Simpan
@@ -28,6 +43,7 @@ export default function AddPatientForm() {
           color="default"
           size="small"
           startIcon={<CancelIcon color="error" />}
+          onClick={handleCancelButton}
           className={classes.buttonItem}
         >
           Batal

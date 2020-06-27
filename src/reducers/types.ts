@@ -14,7 +14,7 @@ export type stateTypeObject = {
   drawer: boolean;
   activeProfile: string;
   patient: Patient;
-  dialog: DialogState;
+  dialogState: DialogState;
 };
 
 export type GetState = () => stateTypeObject;
