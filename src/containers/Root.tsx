@@ -2,20 +2,31 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 import { History } from 'history';
-import { Store } from '../reducers/types';
+import { Store, Dispatch } from '../reducers/types';
 import Routes from '../Routes';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+
+type FirebaseProps = {
+  firebase: any,
+  config: any,
+  dispatch: Dispatch,
+  createFirestoreInstance: any
+}
 
 type Props = {
   store: Store;
   history: History;
+  firebase: FirebaseProps
 };
 
-const Root = ({ store, history }: Props) => (
+const Root = ({ store, firebase }: Props) => (
   <Provider store={store}>
-    <Router>
-      <Routes />
-    </Router>
+    <ReactReduxFirebaseProvider {... firebase}>
+      <Router>
+        <Routes />
+      </Router>
+    </ReactReduxFirebaseProvider>
   </Provider>
 );
 

@@ -7,8 +7,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-// import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import DetailDialog from './DetailDialog';
+import AddPatientDialog from './AddPatientDialog';
 
 // import Pets from './Pets';
 
@@ -40,6 +42,7 @@ export default function Patient(props: Props) {
   const classes = patientPageStyle();
   const { drawer, activeProfile, setActiveProfile } = props;
   const [open, setOpen] = React.useState(false);
+  const [addPatientDialog, setAddPatientDialog] = React.useState(false)
 
   const handleOpen = (name: string) => {
     setOpen(true);
@@ -50,9 +53,29 @@ export default function Patient(props: Props) {
     setOpen(false);
   };
 
+  const openAddDialog = () => {
+    setAddPatientDialog(true)
+  }
+
+  const closeAddDialog = () => {
+    setAddPatientDialog(false);
+  }
+
   return (
     <div className={drawer ? classes.shiftRight : classes.root}>
       <CssBaseline />
+      <div className={classes.button}>
+        <Button
+          variant="contained"
+          color="default"
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={openAddDialog}
+        >
+          Tambah pasien
+        </Button>
+      </div>
+      <AddPatientDialog open={addPatientDialog} onClose={closeAddDialog} />
       <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>

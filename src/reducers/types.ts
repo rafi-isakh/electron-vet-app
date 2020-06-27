@@ -1,8 +1,20 @@
 import { Dispatch as ReduxDispatch, Store as ReduxStore, Action } from 'redux';
 
+type Patient = {
+  name: string,
+  address: string,
+  phone: string
+}
+
+type DialogState = {
+  addPatientDialog: boolean
+}
+
 export type stateTypeObject = {
   drawer: boolean;
   activeProfile: string;
+  patient: Patient;
+  dialog: DialogState;
 };
 
 export type GetState = () => stateTypeObject;
