@@ -8,11 +8,12 @@ export interface DetailDialogProps {
   open: boolean;
   onClose: (value: string) => void;
   dialogState: any;
+  addPatient: any;
 }
 
 function AddPatientDialog(props: DetailDialogProps) {
   const classes = addPatientDialogStyle()
-  const { onClose, open, dialogState } = props;
+  const { onClose, open, dialogState, addPatient } = props;
 
   const handleClose = () => {
     onClose("Close dialog");
@@ -30,7 +31,7 @@ function AddPatientDialog(props: DetailDialogProps) {
         <PersonIcon className={classes.dialogTitleIcon}/>
         <h2>Data pasien</h2>
       </DialogTitle>
-      <AddPatientForm addDialogState={dialogState}/>
+      <AddPatientForm addDialogState={dialogState} addPatient={addPatient}/>
     </Dialog>
   );
 }

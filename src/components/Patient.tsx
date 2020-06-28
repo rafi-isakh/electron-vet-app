@@ -20,6 +20,7 @@ type Props = {
   dialogState: any;
   setActiveProfile: (value: string) => void;
   setAddDialogState: () => void;
+  addPatient: (value: any) => void;
 };
 
 function createData(name: string, address: string, phone: string) {
@@ -42,7 +43,9 @@ const pets = [
 
 export default function Patient(props: Props) {
   const classes = patientPageStyle();
-  const { drawer, activeProfile, dialogState, setActiveProfile, setAddDialogState } = props;
+  const { 
+    drawer, activeProfile, dialogState, 
+    setActiveProfile, setAddDialogState, addPatient } = props;
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = (name: string) => {
@@ -78,7 +81,8 @@ export default function Patient(props: Props) {
       <AddPatientDialog 
         open={dialogState.addPatientDialog} 
         onClose={closeAddDialog} 
-        dialogState={setAddDialogState}/>
+        dialogState={setAddDialogState}
+        addPatient={addPatient}/>
       <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>

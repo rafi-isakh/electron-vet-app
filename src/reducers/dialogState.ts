@@ -1,11 +1,10 @@
 import { DialogStateActions } from "../types/DialogState";
 
-const DialogState = {
+const initialState = {
   addPatientDialog: false
 }
 
-export default function dialogState(state = DialogState, action: DialogStateActions) {
-  console.log('Reducer ', state)
+export default function dialogState(state = initialState, action: DialogStateActions) {
   switch (action.type) {
     case 'SET_ADD_DIALOG_STATE':
       return {

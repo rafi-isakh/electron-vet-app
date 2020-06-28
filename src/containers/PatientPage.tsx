@@ -4,6 +4,7 @@ import { Dispatch, stateTypeObject } from '../reducers/types';
 import Patient from '../components/Patient';
 import { setActiveProfile } from '../actions/activeProfile';
 import { setAddDialogState } from '../actions/dialogState';
+import { addPatient } from '../actions/addPatient';
 
 function mapStateToProps(state: stateTypeObject) {
   console.log(state)
@@ -18,7 +19,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
       setActiveProfile,
-      setAddDialogState
+      setAddDialogState,
+      addPatient
     },
     dispatch
   );

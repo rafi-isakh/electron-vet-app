@@ -20,8 +20,8 @@ const firebaseConfig = {
   messagingSenderId: "675210899315",
   appId: "1:675210899315:web:8e01aa4b2cb5bb2df9df06"
 };
-firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+// firebase.initializeApp(firebaseConfig);
+// firebase.firestore();
 
 const rrfConfig = {
   userProfile: 'users'

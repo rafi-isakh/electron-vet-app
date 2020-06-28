@@ -6,6 +6,7 @@ import { firestoreReducer } from 'redux-firestore';
 import drawer from './drawer';
 import activeProfile from './activeProfile';
 import dialogState from './dialogState';
+import patient from './patient';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -14,6 +15,7 @@ export default function createRootReducer(history: History) {
     firestore: firestoreReducer,
     drawer,
     activeProfile,
-    dialogState
+    dialogState,
+    patient
   });
 }
