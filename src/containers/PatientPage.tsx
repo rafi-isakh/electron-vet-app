@@ -1,17 +1,20 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import { Dispatch, stateTypeObject } from '../reducers/types';
 import Patient from '../components/Patient';
 import { setActiveProfile } from '../actions/activeProfile';
-import { setAddDialogState } from '../actions/dialogState';
-import { addPatient } from '../actions/addPatient';
+import { setAddDialogState, setEditDialogState } from '../actions/dialogState';
+import { addPatient, getPatients, editPatient } from '../actions/addPatient';
 
 function mapStateToProps(state: stateTypeObject) {
   console.log(state)
   return {
     drawer: state.drawer,
     activeProfile: state.activeProfile,
-    dialogState: state.dialogState
+    dialogState: state.dialogState,
+    patients: state.firestore.ordered.patients,
+    currentPatients: state.firestore.data.patients
   };
 }
 
@@ -20,10 +23,18 @@ function mapDispatchToProps(dispatch: Dispatch) {
     {
       setActiveProfile,
       setAddDialogState,
-      addPatient
+      setEditDialogState,
+      addPatient,
+      editPatient,
+      getPatients
     },
     dispatch
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Patient);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'patients'}
+  ])
+)(Patient);

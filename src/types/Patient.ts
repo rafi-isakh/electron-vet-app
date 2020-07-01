@@ -8,7 +8,7 @@ type Patient = {
 } 
 
 export interface SetAddNewPatient extends Action<string> {
-  type: typeof ADD_NEW_PATIENT;
+  type: string;
   payload: Patient;
 }
 

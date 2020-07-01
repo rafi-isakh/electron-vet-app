@@ -8,13 +8,15 @@ type Patient = {
 
 type DialogState = {
   addPatientDialog: boolean
+  editPatientDialog: boolean
 }
 
 export type stateTypeObject = {
   drawer: boolean;
   activeProfile: string;
-  patient: Patient;
+  patients: Patient;
   dialogState: DialogState;
+  firestore: any
 };
 
 export type GetState = () => stateTypeObject;

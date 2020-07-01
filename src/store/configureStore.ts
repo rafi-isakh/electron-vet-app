@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import { createHashHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import { reduxFirestore, getFirestore } from 'redux-firestore';
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import createRootReducer from '../reducers';
 import { Store, stateTypeObject } from '../reducers/types';
 import config from '../services/firebase';
@@ -12,7 +11,7 @@ const history = createHashHistory();
 const rootReducer = createRootReducer(history);
 const router = routerMiddleware(history);
 const enhancer = compose(
-  applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }), router),
+  applyMiddleware(thunk.withExtraArgument({ getFirestore }), router),
   reduxFirestore(config)
 ) ;
 

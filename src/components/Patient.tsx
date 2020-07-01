@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import DetailDialog from './DetailDialog';
 import AddPatientDialog from './AddPatientDialog';
+import EditPatientDialog from './EditPatientDialog';
 
 // import Pets from './Pets';
 
@@ -18,23 +19,19 @@ type Props = {
   drawer: boolean;
   activeProfile: string;
   dialogState: any;
+  patients: any;
+  currentPatients: any;
   setActiveProfile: (value: string) => void;
   setAddDialogState: () => void;
+  setEditDialogState: () => void;
   addPatient: (value: any) => void;
+  editPatient: (value: any, id: string) => void;
+  getPatients: () => void;
 };
-
-function createData(name: string, address: string, phone: string) {
-  return { name, address, phone };
-}
 
 function createPetData(name: string, type: string, breed: string) {
   return { name, type, breed }
 }
-
-const rows = [
-  createData('Irsyad Haniif', 'Jl. Permata Taman Sari Asri III no. 9', '081394708545'),
-  createData('Oskar Dion isakh', 'Jl. Gumuruh Belakang no. 55', '0818618061')
-];
 
 const pets = [
   createPetData ('Cici', 'Kucing', 'Angora'),
@@ -44,9 +41,10 @@ const pets = [
 export default function Patient(props: Props) {
   const classes = patientPageStyle();
   const { 
-    drawer, activeProfile, dialogState, 
-    setActiveProfile, setAddDialogState, addPatient } = props;
+    drawer, activeProfile, dialogState, patients, currentPatients,
+    setActiveProfile, setAddDialogState, setEditDialogState, addPatient, editPatient } = props;
   const [open, setOpen] = React.useState(false);
+  const patientList = patients !== undefined ? patients : {}
 
   const handleOpen = (name: string) => {
     setOpen(true);
@@ -61,7 +59,58 @@ export default function Patient(props: Props) {
     setAddDialogState()
   }
 
+  const openEditDialog = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const target = event.currentTarget;
+    const { value } = target;
+    console.log('ID ', value)
+    setEditDialogState();
+    setActiveProfile(value);
+  }
+
   const closeAddDialog = () => {
+  }
+
+  let tableContents
+
+  if(patients !== undefined) {
+    tableContents = (<TableBody>
+      {patientList.map((patient: any) => (
+        <TableRow key={patient.name}>
+          <TableCell component="th" scope="row">
+            {patient.name}
+          </TableCell>
+          <TableCell align="left">{patient.address}</TableCell>
+          <TableCell align="left">{patient.phone}</TableCell>
+          <TableCell align="right">
+            <Tooltip title="Show">
+              <IconButton aria-label="show" value={patient.name} onClick={e => handleOpen(e.currentTarget.value)}>
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+            <DetailDialog open={open} onClose={handleClose} activeProfile={activeProfile} pets={pets}/>
+            <Tooltip title="Edit">
+              <IconButton aria-label="edit" value={patient.id} onClick={openEditDialog}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <EditPatientDialog 
+              open={dialogState.editPatientDialog} 
+              onClose={closeAddDialog} 
+              dialogState={setEditDialogState}
+              currentData={currentPatients}
+              activeProfile={activeProfile}
+              editPatient={editPatient}/>
+            <Tooltip title="Delete">
+              <IconButton aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>)
+  } else {
+    tableContents = (<TableBody />)
   }
 
   return (
@@ -93,35 +142,7 @@ export default function Patient(props: Props) {
             <TableCell align="left" />
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="left">{row.address}</TableCell>
-              <TableCell align="left">{row.phone}</TableCell>
-              <TableCell align="right">
-                <Tooltip title="Show">
-                  <IconButton aria-label="show" value={row.name} onClick={e => handleOpen(e.currentTarget.value)}>
-                    <VisibilityIcon />
-                  </IconButton>
-                </Tooltip>
-                <DetailDialog open={open} onClose={handleClose} activeProfile={activeProfile} pets={pets}/>
-                <Tooltip title="Edit">
-                  <IconButton aria-label="edit">
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <IconButton aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {tableContents}
       </Table>
     </TableContainer>
     </div>
