@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { ADD_NEW_PATIENT } from '../actions/addPatient';
+import { ADD_NEW_PATIENT } from '../actions/patient';
 
 type Patient = {
   name: string,

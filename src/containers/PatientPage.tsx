@@ -4,8 +4,8 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { Dispatch, stateTypeObject } from '../reducers/types';
 import Patient from '../components/Patient';
 import { setActiveProfile } from '../actions/activeProfile';
-import { setAddDialogState, setEditDialogState } from '../actions/dialogState';
-import { addPatient, getPatients, editPatient } from '../actions/addPatient';
+import { setAddDialogState, setEditDialogState, setDeleteDialogState } from '../actions/dialogState';
+import { addPatient, getPatients, editPatient, deletePatient } from '../actions/patient';
 
 function mapStateToProps(state: stateTypeObject) {
   console.log(state)
@@ -24,8 +24,10 @@ function mapDispatchToProps(dispatch: Dispatch) {
       setActiveProfile,
       setAddDialogState,
       setEditDialogState,
+      setDeleteDialogState,
       addPatient,
       editPatient,
+      deletePatient,
       getPatients
     },
     dispatch

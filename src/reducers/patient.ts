@@ -1,5 +1,5 @@
 import { PatientActions } from '../types/Patient'
-import { ADD_NEW_PATIENT, EDIT_PATIENT } from '../actions/addPatient';
+import { ADD_NEW_PATIENT, EDIT_PATIENT, DELETE_PATIENT } from '../actions/patient';
 
 
 export default function patient (state = {}, action: PatientActions) {
@@ -13,6 +13,9 @@ export default function patient (state = {}, action: PatientActions) {
     case EDIT_PATIENT:
       console.log('update patient success')
       return state;
+    case DELETE_PATIENT:
+        console.log('delete patient success')
+        return state;  
     default:
       return state;
   }

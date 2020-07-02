@@ -1,9 +1,10 @@
 import { DialogStateActions } from "../types/DialogState";
-import { SET_ADD_DIALOG_STATE, SET_EDIT_DIALOG_STATE } from "../actions/dialogState";
+import { SET_ADD_DIALOG_STATE, SET_EDIT_DIALOG_STATE, SET_DELETE_DIALOG_STATE } from "../actions/dialogState";
 
 const initialState = {
   addPatientDialog: false,
-  editPatientDialog: false
+  editPatientDialog: false,
+  deletePatientDialog: false,
 }
 
 export default function dialogState(state = initialState, action: DialogStateActions) {
@@ -17,6 +18,11 @@ export default function dialogState(state = initialState, action: DialogStateAct
       return {
         ...state,
         editPatientDialog: action.payload
+      }
+    case SET_DELETE_DIALOG_STATE:
+      return {
+        ...state,
+        deletePatientDialog: action.payload
       }
     default:
       return state;

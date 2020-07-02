@@ -27,14 +27,13 @@ export default function DetailTab(props: detailTabProps) {
     <div className={classes.root}>
       <Paper square>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Data pasien" {...a11yProps(0)} />
-          <Tab label="Data peliharaan" {...a11yProps(1)} />
+          <Tab label="Data peliharaan" {...a11yProps(0)} />
         </Tabs>
       </Paper>
-      <DetailTabPanel value={value} index={0}>
+      <DetailTabPanel value={value} index={1}>
         Alamat
       </DetailTabPanel>
-      <DetailTabPanel value={value} index={1}>
+      <DetailTabPanel value={value} index={0}>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>

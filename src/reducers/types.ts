@@ -9,6 +9,7 @@ type Patient = {
 type DialogState = {
   addPatientDialog: boolean
   editPatientDialog: boolean
+  deletePatientDialog: boolean
 }
 
 export type stateTypeObject = {

@@ -9,6 +9,13 @@ const detailTabStyle = makeStyles((theme: Theme) => ({
   table: {
     minWidth: 650,
   },
+
+  input: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
 }));
 
 export default detailTabStyle;

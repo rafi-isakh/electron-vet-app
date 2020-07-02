@@ -12,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DetailDialog from './DetailDialog';
 import AddPatientDialog from './AddPatientDialog';
 import EditPatientDialog from './EditPatientDialog';
+import AlertDialog from './AlertDialog';
 
 // import Pets from './Pets';
 
@@ -24,8 +25,10 @@ type Props = {
   setActiveProfile: (value: string) => void;
   setAddDialogState: () => void;
   setEditDialogState: () => void;
+  setDeleteDialogState: () => void;
   addPatient: (value: any) => void;
   editPatient: (value: any, id: string) => void;
+  deletePatient: (id: string) => void;
   getPatients: () => void;
 };
 
@@ -42,9 +45,11 @@ export default function Patient(props: Props) {
   const classes = patientPageStyle();
   const { 
     drawer, activeProfile, dialogState, patients, currentPatients,
-    setActiveProfile, setAddDialogState, setEditDialogState, addPatient, editPatient } = props;
+    setActiveProfile, setAddDialogState, setEditDialogState, setDeleteDialogState,
+    addPatient, editPatient, deletePatient } = props;
   const [open, setOpen] = React.useState(false);
-  const patientList = patients !== undefined ? patients : {}
+  const deleteMessage = "Do you want to delete this item ?";
+  
 
   const handleOpen = (name: string) => {
     setOpen(true);
@@ -67,6 +72,13 @@ export default function Patient(props: Props) {
     setActiveProfile(value);
   }
 
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+    const target = event.currentTarget;
+    const { value } = target;
+    setActiveProfile(value);
+    setDeleteDialogState()
+  }
+
   const closeAddDialog = () => {
   }
 
@@ -74,7 +86,7 @@ export default function Patient(props: Props) {
 
   if(patients !== undefined) {
     tableContents = (<TableBody>
-      {patientList.map((patient: any) => (
+      {patients.map((patient: any) => (
         <TableRow key={patient.name}>
           <TableCell component="th" scope="row">
             {patient.name}
@@ -101,10 +113,17 @@ export default function Patient(props: Props) {
               activeProfile={activeProfile}
               editPatient={editPatient}/>
             <Tooltip title="Delete">
-              <IconButton aria-label="delete">
+              <IconButton aria-label="delete" value={patient.id} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
+            <AlertDialog 
+            open={dialogState.deletePatientDialog} 
+            id={activeProfile} 
+            action={deletePatient}
+            dialogState={setDeleteDialogState}
+            title={"Delete Confirmation"}
+            message={deleteMessage}/>
           </TableCell>
         </TableRow>
       ))}
