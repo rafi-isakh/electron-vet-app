@@ -95,11 +95,17 @@ export default function Patient(props: Props) {
           <TableCell align="left">{patient.phone}</TableCell>
           <TableCell align="right">
             <Tooltip title="Show">
-              <IconButton aria-label="show" value={patient.name} onClick={e => handleOpen(e.currentTarget.value)}>
+              <IconButton aria-label="show" value={patient.id} onClick={e => handleOpen(e.currentTarget.value)}>
                 <VisibilityIcon />
               </IconButton>
             </Tooltip>
-            <DetailDialog open={open} onClose={handleClose} activeProfile={activeProfile} pets={pets}/>
+            <DetailDialog 
+              open={open} 
+              onClose={handleClose} 
+              activeProfile={activeProfile} 
+              pets={pets}
+              action={editPatient} 
+              patientData={currentPatients}/>
             <Tooltip title="Edit">
               <IconButton aria-label="edit" value={patient.id} onClick={openEditDialog}>
                 <EditIcon />

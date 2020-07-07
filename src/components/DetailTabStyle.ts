@@ -16,6 +16,14 @@ const detailTabStyle = makeStyles((theme: Theme) => ({
       width: '25ch',
     },
   },
+
+  inputField: {
+    marginTop: 30
+  },
+
+  textInput: {
+    marginRight: 20
+  }
 }));
 
 export default detailTabStyle;
