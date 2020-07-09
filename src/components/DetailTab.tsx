@@ -86,7 +86,7 @@ export default function DetailTab(props: detailTabProps) {
     const petArray = _.values(patientData.pets)
     petArray.splice(value, 1)
 
-    let reorderPet = petArray.map((pet, idx) => Object.assign({}, pet))
+    let reorderPet = petArray.map((pet: any, idx: number) => Object.assign({}, pet))
     let pets = Object.assign({}, reorderPet)
     let payload = {
       ...patientData,
@@ -108,7 +108,7 @@ export default function DetailTab(props: detailTabProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {_.values(patientData.pets).map((pet, order) => (
+          {_.values(patientData.pets).map((pet: any, order: number) => (
             <TableRow key={pet.name}>
               <TableCell component="th" scope="row">
               {pet.name}

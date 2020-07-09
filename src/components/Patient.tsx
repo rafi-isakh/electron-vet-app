@@ -1,9 +1,10 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import patientPageStyle from './PatientStyle';
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, InputBase } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -13,8 +14,6 @@ import DetailDialog from './DetailDialog';
 import AddPatientDialog from './AddPatientDialog';
 import EditPatientDialog from './EditPatientDialog';
 import AlertDialog from './AlertDialog';
-
-// import Pets from './Pets';
 
 type Props = {
   drawer: boolean;
@@ -32,15 +31,6 @@ type Props = {
   getPatients: () => void;
 };
 
-function createPetData(name: string, type: string, breed: string) {
-  return { name, type, breed }
-}
-
-const pets = [
-  createPetData ('Cici', 'Kucing', 'Angora'),
-  createPetData ('Kimi', 'Kucing', 'Persia')
-]
-
 export default function Patient(props: Props) {
   const classes = patientPageStyle();
   const { 
@@ -48,6 +38,8 @@ export default function Patient(props: Props) {
     setActiveProfile, setAddDialogState, setEditDialogState, setDeleteDialogState,
     addPatient, editPatient, deletePatient } = props;
   const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState('');
+  const [search, setSearch] = React.useState(patients);
   const deleteMessage = "Do you want to delete this item ?";
   
 
@@ -59,6 +51,18 @@ export default function Patient(props: Props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.currentTarget;
+    const { value } = target;
+    event.persist();
+    setName(value);
+    let test = patients.filter((patient: any) => {
+      const refinedInput = new RegExp(value, 'i');
+      return patient.name.match(refinedInput)
+    })
+    setSearch(test)
+  }
 
   const openAddDialog = () => {
     setAddDialogState()
@@ -83,10 +87,17 @@ export default function Patient(props: Props) {
   }
 
   let tableContents
+  let dataSource
 
-  if(patients !== undefined) {
+  if(patients === search || name === '') {
+    dataSource = patients;
+  } else {
+    dataSource = search;
+  }
+
+  if(dataSource !== undefined) {
     tableContents = (<TableBody>
-      {patients.map((patient: any) => (
+      {dataSource.map((patient: any) => (
         <TableRow key={patient.name}>
           <TableCell component="th" scope="row">
             {patient.name}
@@ -102,8 +113,7 @@ export default function Patient(props: Props) {
             <DetailDialog 
               open={open} 
               onClose={handleClose} 
-              activeProfile={activeProfile} 
-              pets={pets}
+              activeProfile={activeProfile}
               action={editPatient} 
               patientData={currentPatients}/>
             <Tooltip title="Edit">
@@ -142,6 +152,18 @@ export default function Patient(props: Props) {
     <div className={drawer ? classes.shiftRight : classes.root}>
       <CssBaseline />
       <div className={classes.button}>
+        <Paper className={classes.searchBox}>
+          <InputBase
+            className={classes.input}
+            placeholder="Cari Pasien"
+            inputProps={{ 'aria-label': 'search google maps' }}
+            onChange={handleSearch}
+            value={name}
+          />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
         <Button
           variant="contained"
           color="default"

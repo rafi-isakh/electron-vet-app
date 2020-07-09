@@ -34,6 +34,21 @@ const patientPageStyle = makeStyles((theme: Theme) =>
       flex: '50%',
       textAlign: 'right'
     },
+
+    input: {
+      marginLeft: theme.spacing(1),
+      flex: 1,
+    },
+
+    iconButton: {
+      padding: 10,
+    },
+    
+    searchBox: {
+      display: 'flex',
+      alignItems: 'center',
+      width: '25%',
+    },
 }));
 
 export default patientPageStyle;

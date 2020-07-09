@@ -9,7 +9,6 @@ export interface DetailDialogProps {
   open: boolean;
   activeProfile: string;
   onClose: (value: string) => void;
-  pets: Array<any>;
   patientData: any;
   action: any;
 }
