@@ -5,6 +5,23 @@ export const EDIT_PATIENT = 'EDIT_PATIENT';
 export const DELETE_PATIENT = 'DELETE_PATIENT';
 export const ADD_PATIENT_ERROR = 'ADD_PATIENT_ERROR';
 
+function refreshPatientList(firestore: any, dispatch: Dispatch, actionType: string) {
+  firestore.collection('patients').get().then((patients: any) => {
+    let resultList: any[] = []
+    let detailInfo = {}
+    patients.forEach((patient: any) => {
+      let id = patient.id
+      let value = patient.data()
+      detailInfo = Object.assign(detailInfo, {[id]: value})
+      
+      let patientData = patient.data()
+      patientData['id'] = id
+      resultList.push(patientData)
+    })
+    dispatch({ type: actionType, payload: {resultList, detailInfo}})
+  })
+} 
+
 export const addPatient = (patient: any) => {
   return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
     const firestore = getFirestore();
@@ -12,7 +29,7 @@ export const addPatient = (patient: any) => {
       ...patient,
       createdAt: new Date()
     }).then(() => {
-      dispatch({ type: ADD_NEW_PATIENT, patient});
+      refreshPatientList(firestore, dispatch, ADD_NEW_PATIENT)
     }).catch((err: any) => {
       dispatch({ type: ADD_PATIENT_ERROR, err});
     })
@@ -26,7 +43,7 @@ export const editPatient = (updatedPatient: any, id: string) => {
       ...updatedPatient,
       modifiedAt: new Date()
     }).then(() => {
-      dispatch({ type: EDIT_PATIENT, updatedPatient})
+      refreshPatientList(firestore, dispatch, EDIT_PATIENT)
     })
   }
 }
@@ -36,7 +53,7 @@ export const deletePatient = (id: string) => {
     const firestore = getFirestore();
     firestore.collection('patients').doc(id).delete()
       .then(() => {
-        dispatch({ type: DELETE_PATIENT, id})
+        refreshPatientList(firestore, dispatch, DELETE_PATIENT)
       })
   }
 }
@@ -44,11 +61,20 @@ export const deletePatient = (id: string) => {
 export const getPatients = () => {
   return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
     const firestore = getFirestore();
-    firestore.collection('patients').get().then((patients: any[]) => {
-      patients.forEach(data => {
-        console.log('Result list', data.data())
+    console.log('refresh action called')
+    firestore.collection('patients').get().then((patients: any) => {
+      let resultList: any[] = []
+      let detailInfo = {}
+      patients.forEach((patient: any) => {
+        let id = patient.id
+        let value = patient.data()
+        detailInfo = Object.assign(detailInfo, {[id]: value})
+        
+        let patientData = patient.data()
+        patientData['id'] = id
+        resultList.push(patientData)
       })
-      dispatch({ type: 'GET_PATIENT_LIST', patients})
+      dispatch({ type: 'GET_PATIENT_LIST', payload: {resultList, detailInfo}})
     })
   }
 }

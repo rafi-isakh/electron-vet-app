@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import patientPageStyle from './PatientStyle';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, InputBase } from '@material-ui/core';
@@ -36,10 +37,10 @@ export default function Patient(props: Props) {
   const { 
     drawer, activeProfile, dialogState, patients, currentPatients,
     setActiveProfile, setAddDialogState, setEditDialogState, setDeleteDialogState,
-    addPatient, editPatient, deletePatient } = props;
+    addPatient, editPatient, deletePatient, getPatients } = props;
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('');
-  const [search, setSearch] = React.useState(patients);
+  const [search, setSearch] = React.useState();
   const deleteMessage = "Do you want to delete this item ?";
   
 
@@ -57,10 +58,11 @@ export default function Patient(props: Props) {
     const { value } = target;
     event.persist();
     setName(value);
-    let test = patients.filter((patient: any) => {
+    let test = patients.patients.resultList.filter((patient: any) => {
       const refinedInput = new RegExp(value, 'i');
       return patient.name.match(refinedInput)
     })
+    console.log('Search result ', test)
     setSearch(test)
   }
 
@@ -88,16 +90,18 @@ export default function Patient(props: Props) {
 
   let tableContents
   let dataSource
-
+  console.log('Patients ---', patients)
   if(patients === search || name === '') {
-    dataSource = patients;
-  } else {
-    dataSource = search;
+    dataSource = patients
+  }
+  else {
+    dataSource = Object.assign({},{'patients': {'resultList': search}});
   }
 
-  if(dataSource !== undefined) {
+  console.log("Data source", dataSource)
+  if(dataSource !== undefined && !_.isEmpty(dataSource)) {
     tableContents = (<TableBody>
-      {dataSource.map((patient: any) => (
+      {dataSource.patients.resultList.map((patient: any) => (
         <TableRow key={patient.name}>
           <TableCell component="th" scope="row">
             {patient.name}
@@ -114,8 +118,9 @@ export default function Patient(props: Props) {
               open={open} 
               onClose={handleClose} 
               activeProfile={activeProfile}
-              action={editPatient} 
-              patientData={currentPatients}/>
+              action={editPatient}
+              refreshAction={getPatients} 
+              patientData={currentPatients.patients.detailInfo}/>
             <Tooltip title="Edit">
               <IconButton aria-label="edit" value={patient.id} onClick={openEditDialog}>
                 <EditIcon />
@@ -125,7 +130,7 @@ export default function Patient(props: Props) {
               open={dialogState.editPatientDialog} 
               onClose={closeAddDialog} 
               dialogState={setEditDialogState}
-              currentData={currentPatients}
+              currentData={currentPatients.patients.detailInfo}
               activeProfile={activeProfile}
               editPatient={editPatient}/>
             <Tooltip title="Delete">

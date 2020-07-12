@@ -11,6 +11,7 @@ import DetailTabPanel from './DetailTabPanel';
 type detailTabProps = {
   patientData: any
   action: any
+  refreshAction: any
   activeProfile: string
 };
 
@@ -65,7 +66,7 @@ export default function DetailTab(props: detailTabProps) {
 
   const handleSubmit = () => {
     if (pet.name !== '' && pet.pet !== '') {
-      const index = (patientData.pets !== undefined && !_.isEmpty(patientData.pets)) ? +_.keys(patientData.pets).pop() + 1 : 0;
+      const index = (patientData.pets !== undefined && !_.isEmpty(patientData.pets)) ? _.keys(patientData.pets).length + 1 : 0;
       let payload = {
         ...patientData,
         pets: {
@@ -73,8 +74,8 @@ export default function DetailTab(props: detailTabProps) {
           [index]: pet
         }
       }
-      action(payload, activeProfile)
       setPet(initialValues)
+      action(payload, activeProfile)
     } else {
       setWarning({ ...warning, open: true });
     } 
@@ -84,7 +85,9 @@ export default function DetailTab(props: detailTabProps) {
     const target = event.currentTarget;
     const { value } = target;
     const petArray = _.values(patientData.pets)
-    petArray.splice(value, 1)
+    
+    const index = parseInt(value)
+    petArray.splice(index, 1)
 
     let reorderPet = petArray.map((pet: any, idx: number) => Object.assign({}, pet))
     let pets = Object.assign({}, reorderPet)

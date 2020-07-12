@@ -11,11 +11,12 @@ export interface AddDialogProps {
   activeProfile: string;
 }
 
-export default function AddPatientForm(props: AddDialogProps) {
+export default function EditPatientForm(props: AddDialogProps) {
 
   const classes =  patientFormStyle();
   const { editDialogState, editPatient, currentData, activeProfile } = props
   const patient = currentData[activeProfile]
+  console.log('Patient ', patient)
   const initialValues = {
     name: patient.name,
     address: patient.address,

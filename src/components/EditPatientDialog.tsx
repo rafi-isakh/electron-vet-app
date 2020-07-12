@@ -16,7 +16,7 @@ export interface EditDialogProps {
 function EditPatientDialog(props: EditDialogProps) {
   const classes = addPatientDialogStyle()
   const { onClose, open, dialogState, editPatient, currentData, activeProfile } = props;
-
+  console.log('editDialog ', currentData)
   const handleClose = () => {
     onClose("Close dialog");
   };
