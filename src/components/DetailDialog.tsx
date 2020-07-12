@@ -7,7 +7,7 @@ import DetailTab from './DetailTab';
 
 export interface DetailDialogProps {
   open: boolean;
-  activeProfile: string;
+  activeProfile: any;
   onClose: (value: string) => void;
   patientData: any;
   action: any;
@@ -17,21 +17,19 @@ export interface DetailDialogProps {
 function DetailDialog(props: DetailDialogProps) {
   const classes = detailDialogStyle()
   const { activeProfile, onClose, open, patientData, action, refreshAction } = props;
-  console.log('Data ', activeProfile)
-  console.log('Data activeProfile', typeof activeProfile)
   const handleClose = () => {
     onClose("Close dialog");
   };
-
+  const patient = patientData[activeProfile.activeProfile]
   let dialogTitle, patientDetail
-  if(patientData[activeProfile] !== undefined) {
+  if(patient !== undefined) {
     dialogTitle = (
     <DialogTitle disableTypography id="simple-dialog-title" className={classes.dialogTitle}>
       <PersonIcon className={classes.dialogTitleIcon}/>
-      <h2>{patientData[activeProfile].name}</h2>
+      <h2>{patient.name}</h2>
     </DialogTitle>)
     patientDetail = <DetailTab 
-      patientData={patientData[activeProfile]} 
+      patientData={patient} 
       action={action}
       refreshAction={refreshAction} 
       activeProfile={activeProfile}/>

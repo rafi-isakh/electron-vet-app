@@ -22,7 +22,7 @@ type Props = {
   dialogState: any;
   patients: any;
   currentPatients: any;
-  setActiveProfile: (value: string) => void;
+  setActiveProfile: (value: string, key: number) => void;
   setAddDialogState: () => void;
   setEditDialogState: () => void;
   setDeleteDialogState: () => void;
@@ -38,15 +38,19 @@ export default function Patient(props: Props) {
     drawer, activeProfile, dialogState, patients, currentPatients,
     setActiveProfile, setAddDialogState, setEditDialogState, setDeleteDialogState,
     addPatient, editPatient, deletePatient, getPatients } = props;
+  const initialSearch: any[] = []
+
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('');
-  const [search, setSearch] = React.useState();
+  const [search, setSearch] = React.useState(initialSearch);
   const deleteMessage = "Do you want to delete this item ?";
   
 
-  const handleOpen = (name: string) => {
+  const handleOpen = (event: any) => {
+    const target = event.currentTarget;
+    const { name, value } = target;
     setOpen(true);
-    setActiveProfile(name);
+    setActiveProfile(value, parseInt(name));
   };
 
   const handleClose = () => {
@@ -58,7 +62,7 @@ export default function Patient(props: Props) {
     const { value } = target;
     event.persist();
     setName(value);
-    let test = patients.patients.resultList.filter((patient: any) => {
+    let test = _.values(patients.patients).filter((patient: any) => {
       const refinedInput = new RegExp(value, 'i');
       return patient.name.match(refinedInput)
     })
@@ -70,18 +74,18 @@ export default function Patient(props: Props) {
     setAddDialogState()
   }
 
-  const openEditDialog = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const openEditDialog = (event: any) => {
     const target = event.currentTarget;
-    const { value } = target;
-    console.log('ID ', value)
+    const { name, value } = target;
+    console.log('index ', name)
     setEditDialogState();
-    setActiveProfile(value);
+    setActiveProfile(value, parseInt(name));
   }
 
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+  const handleDelete = (event: any) =>{
     const target = event.currentTarget;
-    const { value } = target;
-    setActiveProfile(value);
+    const { name, value } = target;
+    setActiveProfile(value, parseInt(name));
     setDeleteDialogState()
   }
 
@@ -90,18 +94,16 @@ export default function Patient(props: Props) {
 
   let tableContents
   let dataSource
-  console.log('Patients ---', patients)
   if(patients === search || name === '') {
     dataSource = patients
   }
   else {
-    dataSource = Object.assign({},{'patients': {'resultList': search}});
+    dataSource = Object.assign({},{'patients': search});
   }
 
-  console.log("Data source", dataSource)
   if(dataSource !== undefined && !_.isEmpty(dataSource)) {
     tableContents = (<TableBody>
-      {dataSource.patients.resultList.map((patient: any) => (
+      {_.values(dataSource.patients).map((patient: any, idx: number) => (
         <TableRow key={patient.name}>
           <TableCell component="th" scope="row">
             {patient.name}
@@ -110,7 +112,7 @@ export default function Patient(props: Props) {
           <TableCell align="left">{patient.phone}</TableCell>
           <TableCell align="right">
             <Tooltip title="Show">
-              <IconButton aria-label="show" value={patient.id} onClick={e => handleOpen(e.currentTarget.value)}>
+              <IconButton aria-label="show" value={patient.id} name={idx.toString()} onClick={handleOpen}>
                 <VisibilityIcon />
               </IconButton>
             </Tooltip>
@@ -120,9 +122,9 @@ export default function Patient(props: Props) {
               activeProfile={activeProfile}
               action={editPatient}
               refreshAction={getPatients} 
-              patientData={currentPatients.patients.detailInfo}/>
+              patientData={currentPatients.patients}/>
             <Tooltip title="Edit">
-              <IconButton aria-label="edit" value={patient.id} onClick={openEditDialog}>
+              <IconButton aria-label="edit" value={patient.id} name={idx.toString()} onClick={openEditDialog}>
                 <EditIcon />
               </IconButton>
             </Tooltip>
@@ -130,11 +132,11 @@ export default function Patient(props: Props) {
               open={dialogState.editPatientDialog} 
               onClose={closeAddDialog} 
               dialogState={setEditDialogState}
-              currentData={currentPatients.patients.detailInfo}
+              currentData={currentPatients.patients}
               activeProfile={activeProfile}
               editPatient={editPatient}/>
             <Tooltip title="Delete">
-              <IconButton aria-label="delete" value={patient.id} onClick={handleDelete}>
+              <IconButton aria-label="delete" value={patient.id} name={idx.toString()} onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>

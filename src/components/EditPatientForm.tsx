@@ -8,15 +8,15 @@ export interface AddDialogProps {
   editDialogState: any;
   editPatient: any;
   currentData: any;
-  activeProfile: string;
+  activeProfile: any;
 }
 
 export default function EditPatientForm(props: AddDialogProps) {
 
   const classes =  patientFormStyle();
   const { editDialogState, editPatient, currentData, activeProfile } = props
-  const patient = currentData[activeProfile]
-  console.log('Patient ', patient)
+  const patient = currentData[activeProfile.activeProfile]
+  console.log('Active profile ', activeProfile.activeProfile)
   const initialValues = {
     name: patient.name,
     address: patient.address,

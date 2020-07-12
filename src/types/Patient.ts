@@ -2,9 +2,12 @@ import { Action } from 'redux';
 import { ADD_NEW_PATIENT } from '../actions/patient';
 
 type Patient = {
-  name: string,
-  address: string,
-  phone: string
+  selected: {
+    activeProfile: string,
+    selectedProfile: number
+  },
+  patient: any,
+  id: any
 } 
 
 export interface SetAddNewPatient extends Action<string> {
