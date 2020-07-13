@@ -1,5 +1,6 @@
 import { PatientActions } from '../types/Patient'
-import { ADD_NEW_PATIENT, EDIT_PATIENT, DELETE_PATIENT } from '../actions/patient';
+import { ADD_NEW_PATIENT, EDIT_PATIENT, DELETE_PATIENT, GET_PATIENT_LIST } from '../actions/patient';
+import _ from 'lodash';
 
 const initialState = {
   patients: {
@@ -18,7 +19,7 @@ export default function patient (state = initialState, action: PatientActions) {
           [action.payload.id]: action.payload
         }
       };
-    case 'GET_PATIENT_LIST':
+    case GET_PATIENT_LIST:
       console.log('get patient list', action.payload)
       return {
         ...state,
@@ -35,9 +36,10 @@ export default function patient (state = initialState, action: PatientActions) {
       };
     case DELETE_PATIENT:
         console.log('delete patient success')
+        const patients = _.omit(state.patients, action.payload.activeProfile)
         return {
           ...state,
-          patients: action.payload
+          patients
         };  
     default:
       return state;

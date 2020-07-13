@@ -1,5 +1,4 @@
 import { Action } from 'redux';
-import { ADD_NEW_PATIENT } from '../actions/patient';
 
 type Patient = {
   selected: {
@@ -7,6 +6,7 @@ type Patient = {
     selectedProfile: number
   },
   patient: any,
+  activeProfile: string,
   id: any
 } 
 

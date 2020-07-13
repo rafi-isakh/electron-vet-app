@@ -1,22 +1,10 @@
 import { Dispatch, GetState } from '../reducers/types';
 
+export const GET_PATIENT_LIST = 'GET_PATIENT_LIST';
 export const ADD_NEW_PATIENT = 'ADD_NEW_PATIENT';
 export const EDIT_PATIENT = 'EDIT_PATIENT';
 export const DELETE_PATIENT = 'DELETE_PATIENT';
 export const ADD_PATIENT_ERROR = 'ADD_PATIENT_ERROR';
-
-function refreshPatientList(firestore: any, dispatch: Dispatch, actionType: string) {
-  firestore.collection('patients').get().then((patients: any) => {
-    let detailInfo = {}
-    patients.forEach((patient: any) => {
-      let id = patient.id
-      let value = patient.data()
-      value['id'] = id
-      detailInfo = Object.assign(detailInfo, {[id]: value})
-    })
-    dispatch({ type: actionType, payload: detailInfo})
-  })
-} 
 
 export const addPatient = (patient: any) => {
   return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
@@ -48,12 +36,12 @@ export const editPatient = (updatedPatient: any, selected: any) => {
   }
 }
 
-export const deletePatient = (id: any) => {
+export const deletePatient = (selected: any) => {
   return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
     const firestore = getFirestore();
-    firestore.collection('patients').doc(id.activeProfile).delete()
+    firestore.collection('patients').doc(selected.activeProfile).delete()
       .then(() => {
-        refreshPatientList(firestore, dispatch, DELETE_PATIENT)
+        dispatch({ type: DELETE_PATIENT, payload: selected})
       })
   }
 }
@@ -69,7 +57,7 @@ export const getPatients = () => {
         value['id'] = id
         detailInfo = Object.assign(detailInfo, {[id]: value})
       })
-      dispatch({ type: 'GET_PATIENT_LIST', payload: detailInfo})
+      dispatch({ type: GET_PATIENT_LIST, payload: detailInfo})
     })
   }
 }
