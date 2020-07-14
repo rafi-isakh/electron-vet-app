@@ -18,6 +18,7 @@ export type stateTypeObject = {
   dialogState: DialogState;
   firestore: any;
   patients: any;
+  queue: any;
 };
 
 export type GetState = () => stateTypeObject;

@@ -7,6 +7,7 @@ import drawer from './drawer';
 import activeProfile from './activeProfile';
 import dialogState from './dialogState';
 import patients from './patient';
+import queue from './queue';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -16,6 +17,7 @@ export default function createRootReducer(history: History) {
     drawer,
     activeProfile,
     dialogState,
-    patients
+    patients,
+    queue
   });
 }

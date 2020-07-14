@@ -17,7 +17,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
+import GroupIcon from '@material-ui/icons/Group';
+// import MenuBookIcon from '@material-ui/icons/MenuBook';
 import routes from '../constants/routes.json';
 import drawerStyles from './PersistentDrawerStyle';
 
@@ -82,17 +83,17 @@ export default function PersistentDrawerLeft(props: Props) {
         </div>
         <Divider />
         <List>
+          <ListItem button key="queue" component={Link} to={routes.HOME}>
+            <ListItemIcon>
+              <GroupIcon />
+            </ListItemIcon>
+            <ListItemText primary="Antrian Pasien" />
+          </ListItem>
           <ListItem button key="pasien" component={Link} to={routes.PATIENT}>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primary="Pasien" />
-          </ListItem>
-          <ListItem button key="rm" component={Link} to={routes.HOME}>
-            <ListItemIcon>
-              <MenuBookIcon />
-            </ListItemIcon>
-            <ListItemText primary="Rekam Medis" />
           </ListItem>
         </List>
         <Divider />

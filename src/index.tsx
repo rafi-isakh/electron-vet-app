@@ -10,7 +10,7 @@ import 'firebase/firestore'
 import { createFirestoreInstance } from "redux-firestore";
 
 const store = configureStore();
-
+  
 const firebaseConfig = {
   apiKey: "AIzaSyB9H292Lx47xSutp43PTVcoo4sY9yrWkBc",
   authDomain: "electron-vet-app.firebaseapp.com",

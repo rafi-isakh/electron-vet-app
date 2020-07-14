@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Dispatch, stateTypeObject } from '../reducers/types';
-import Patient from '../components/Patient';
+import Patient from '../components/patient/Patient';
 import { setActiveProfile } from '../actions/activeProfile';
 import { setAddDialogState, setEditDialogState, setDeleteDialogState } from '../actions/dialogState';
 import { addPatient, getPatients, editPatient, deletePatient } from '../actions/patient';
@@ -10,7 +10,6 @@ import { addPatient, getPatients, editPatient, deletePatient } from '../actions/
 class PatientPage extends React.Component<any, any> {
   
   componentDidMount() {
-    console.log('Page refreshed')
     this.props.getPatients()
   }
 
