@@ -1,28 +1,32 @@
 import React from 'react';
 import _ from 'lodash';
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import queueStyle from './QueueStyle';
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import AddQueueDialog from './AddQueueDialog';
 
 type Props = {
   drawer: boolean;
+  dialogState: any;
   queueList: any;
+  patients: any;
+  setAddDialogState: () => void;
+  addQueue: (item: any) => void;
 };
-
-function createData(name: string, owner: string, category: string, status: string) {
-  return { name, owner, category, status };
-}
-
-const rows = [
-  createData('Mika', 'Sulasiyana Rafdiani', 'Pemeriksaan', 'Waiting'),
-  createData('Abu', 'Rafi Ramadhan', 'Grooming', 'Processing'),
-  createData('Cici', 'Rafi Ramadhan', 'Grooming', 'Billing'),
-  createData('Tamtam', 'Rafi Ramadhan', 'Grooming', 'Finished'),
-];
 
 export default function Queue(props: Props) {
   const classes = queueStyle();
-  const { drawer, queueList } = props;
+  const { 
+    drawer, queueList, dialogState, patients, 
+    setAddDialogState, addQueue } = props;
+
+  const openAddDialog = () => {
+    setAddDialogState()
+  }
+
+  const closeAddDialog = () => {
+  }
 
   let tableContents
   if (queueList !== undefined && !_.isEmpty(queueList)) {
@@ -46,6 +50,24 @@ export default function Queue(props: Props) {
   return (
     <div className={drawer ? classes.shiftRight : classes.root}>
       <CssBaseline />
+      <div className={classes.button}>
+      <Button
+          variant="contained"
+          color="default"
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={openAddDialog}
+        >
+          Tambah antrian
+        </Button>
+      </div>
+      <AddQueueDialog 
+        open={dialogState.addPatientDialog} 
+        onClose={closeAddDialog} 
+        dialogState={setAddDialogState}
+        patients={patients}
+        addQueue={addQueue}
+        />
       <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
