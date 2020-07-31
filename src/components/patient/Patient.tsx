@@ -17,6 +17,7 @@ import EditPatientDialog from './EditPatientDialog';
 import AlertDialog from './AlertDialog';
 
 type Props = {
+  auth: any;
   drawer: boolean;
   activeProfile: string;
   dialogState: any;
@@ -66,7 +67,7 @@ export default function Patient(props: Props) {
       const refinedInput = new RegExp(value, 'i');
       return patient.name.match(refinedInput)
     })
-    console.log('Search result ', test)
+
     setSearch(test)
   }
 
@@ -77,7 +78,7 @@ export default function Patient(props: Props) {
   const openEditDialog = (event: any) => {
     const target = event.currentTarget;
     const { name, value } = target;
-    console.log('index ', name)
+
     setEditDialogState();
     setActiveProfile(value, parseInt(name));
   }

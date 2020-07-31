@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
@@ -18,23 +18,30 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from '@material-ui/icons/Group';
-// import MenuBookIcon from '@material-ui/icons/MenuBook';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import routes from '../constants/routes.json';
 import drawerStyles from './PersistentDrawerStyle';
 
 type Props = {
   setDrawer: () => void;
+  signOut: () =>void;
   drawer: boolean;
+  auth: any;
+  children: ReactNode;
 };
 
 export default function PersistentDrawerLeft(props: Props) {
   const classes = drawerStyles();
   const theme = useTheme();
-  const { setDrawer, drawer } = props;
+  const { signOut, setDrawer, drawer } = props;
 
   const handleDrawerOpen = () => {
     setDrawer();
   };
+
+  const handleLogout = () => {
+    signOut();
+  }
 
   const handleDrawerClose = () => {
     setDrawer();
@@ -95,8 +102,14 @@ export default function PersistentDrawerLeft(props: Props) {
             </ListItemIcon>
             <ListItemText primary="Pasien" />
           </ListItem>
+          <Divider />
+          <ListItem button key="logout" component={Link} to={routes.LOGIN} onClick={handleLogout}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Keluar" />
+          </ListItem>
         </List>
-        <Divider />
       </Drawer>
     </div>
   );

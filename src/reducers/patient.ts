@@ -11,7 +11,6 @@ const initialState = {
 export default function patient (state = initialState, action: PatientActions) {
   switch(action.type) {
     case ADD_NEW_PATIENT:
-      console.log('add patient success')
       return {
         ...state,
         patients: {
@@ -20,13 +19,11 @@ export default function patient (state = initialState, action: PatientActions) {
         }
       };
     case GET_PATIENT_LIST:
-      console.log('get patient list', action.payload)
       return {
         ...state,
         patients: action.payload
       };
     case EDIT_PATIENT:
-      console.log('edit update', action.payload)
       return {
         ...state,
         patients: {
@@ -35,7 +32,6 @@ export default function patient (state = initialState, action: PatientActions) {
           }
       };
     case DELETE_PATIENT:
-        console.log('delete patient success')
         const patients = _.omit(state.patients, action.payload.activeProfile)
         return {
           ...state,

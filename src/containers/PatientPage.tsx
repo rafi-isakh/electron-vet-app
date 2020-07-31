@@ -6,15 +6,19 @@ import Patient from '../components/patient/Patient';
 import { setActiveProfile } from '../actions/activeProfile';
 import { setAddDialogState, setEditDialogState, setDeleteDialogState } from '../actions/dialogState';
 import { addPatient, getPatients, editPatient, deletePatient } from '../actions/patient';
+import { signIn } from '../actions/auth';
 
 class PatientPage extends React.Component<any, any> {
   
   componentDidMount() {
-    this.props.getPatients()
+    if (!this.props.auth.isEmpty) {
+      this.props.getPatients()
+    }
   }
 
   public render() {
-    return <Patient 
+    return <Patient
+      auth={this.props.auth} 
       drawer={this.props.drawer}
       activeProfile={this.props.activeProfile}
       dialogState={this.props.dialogState}
@@ -35,6 +39,7 @@ class PatientPage extends React.Component<any, any> {
 function mapStateToProps(state: stateTypeObject) {
   console.log(state)
   return {
+    auth: state.firebase.auth,
     drawer: state.drawer,
     activeProfile: state.activeProfile,
     dialogState: state.dialogState,
@@ -53,7 +58,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
       addPatient,
       editPatient,
       deletePatient,
-      getPatients
+      getPatients,
+      signIn
     },
     dispatch
   );

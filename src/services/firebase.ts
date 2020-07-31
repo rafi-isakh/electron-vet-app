@@ -1,7 +1,9 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/database';
 
-const config = {
+export const config = {
   apiKey: "AIzaSyB9H292Lx47xSutp43PTVcoo4sY9yrWkBc",
   authDomain: "electron-vet-app.firebaseapp.com",
   databaseURL: "https://electron-vet-app.firebaseio.com",

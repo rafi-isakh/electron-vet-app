@@ -40,11 +40,10 @@ export default function AddQueueForm(props: AddDialogProps) {
   }
 
   const handleAutoComplete = (event: any, newValue: any) => {
-    console.log('Owner value ', newValue)
     setValues({...values, 'owner': newValue.name})
     setPets(newValue.pets)
   }
-  console.log('Form data', values)
+  
   const options = _.values(patients.patients)
   return(
     <div>

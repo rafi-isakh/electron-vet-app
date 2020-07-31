@@ -3,6 +3,7 @@ import { connectRouter } from 'connected-react-router';
 import { History } from 'history';
 import { firebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
+import auth from './auth';
 import drawer from './drawer';
 import activeProfile from './activeProfile';
 import dialogState from './dialogState';
@@ -18,6 +19,7 @@ export default function createRootReducer(history: History) {
     activeProfile,
     dialogState,
     patients,
-    queue
+    queue,
+    auth
   });
 }

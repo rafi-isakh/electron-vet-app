@@ -5,15 +5,17 @@ import App from './containers/App';
 import PersistentDrawer from './containers/PersistentDrawer';
 import PatientPage from './containers/PatientPage';
 import QueuePage from './containers/QueuePage';
+import SignInPage from './containers/SignInPage';
 
 export default function Routes() {
   return (
-    <App>
+      <App>
       <PersistentDrawer />
-      <Switch>
-        <Route path={routes.PATIENT} component={PatientPage} />
-        <Route path={routes.HOME} component={QueuePage} />
-      </Switch>
-    </App>
+        <Switch>
+          <Route path={routes.LOGIN} component={SignInPage} />
+          <Route path={routes.PATIENT} component={PatientPage} />
+          <Route path={routes.HOME} component={QueuePage} />
+        </Switch>
+      </App>
   );
 }

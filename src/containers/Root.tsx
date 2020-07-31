@@ -24,7 +24,7 @@ const Root = ({ store, firebase }: Props) => (
   <Provider store={store}>
     <ReactReduxFirebaseProvider {... firebase}>
       <Router>
-        <Routes />
+          <Routes />
       </Router>
     </ReactReduxFirebaseProvider>
   </Provider>
