@@ -49,7 +49,8 @@ export default function DetailTab(props: detailTabProps) {
   const initialValues = {
     name: "",
     pet: "",
-    breed: ""
+    breed: "",
+    gender: ""
   };
   const [pet, setPet] = useState(initialValues || {});
 
@@ -106,7 +107,7 @@ export default function DetailTab(props: detailTabProps) {
           <TableRow>  
             <TableCell>Nama Hewan</TableCell>
             <TableCell align="left">Jenis Hewan</TableCell>
-            <TableCell align="left">Ras&nbsp;</TableCell>
+            <TableCell align="left">Gender&nbsp;</TableCell>
             <TableCell align="center" />
           </TableRow>
         </TableHead>
@@ -117,7 +118,7 @@ export default function DetailTab(props: detailTabProps) {
               {pet.name}
               </TableCell>
               <TableCell align="left">{pet.pet}</TableCell>
-              <TableCell align="left">{pet.breed}</TableCell>
+              <TableCell align="left">{pet.gender}</TableCell>
               <TableCell align="center">
                 <IconButton aria-label="delete pet" value={order} onClick={handleDelete}>
                   <HighlightOffIcon color="secondary"/>
@@ -148,7 +149,7 @@ export default function DetailTab(props: detailTabProps) {
           <form className={classes.inputField} noValidate autoComplete="off">
             <TextField className={classes.textInput} name="name" label="Nama" onChange={handleForm} value={pet.name}/>
             <TextField className={classes.textInput} name="pet" label="Jenis hewan" onChange={handleForm} value={pet.pet}/>
-            <TextField className={classes.textInput} name="breed" label="Ras" onChange={handleForm} value={pet.breed}/>
+            <TextField className={classes.textInput} name="gender" label="Gender" onChange={handleForm} value={pet.gender}/>
             <IconButton color="primary" aria-label="add pet" component="span" onClick={handleSubmit}>
               <AddCircleOutlineOutlinedIcon />
             </IconButton>

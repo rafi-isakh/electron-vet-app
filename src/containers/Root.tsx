@@ -1,11 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 import { History } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ReactReduxFirebaseProvider, isLoaded } from 'react-redux-firebase';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { Store, Dispatch } from '../reducers/types';
 import Routes from '../Routes';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 
 type FirebaseProps = {
   firebase: any,
@@ -20,11 +21,19 @@ type Props = {
   firebase: FirebaseProps
 };
 
+function AuthIsLoaded({ children }: any) {
+  const auth = useSelector(state => state.firebase.auth)
+  if (!isLoaded(auth)) return <LinearProgress color="secondary" />;
+  return children
+}
+
 const Root = ({ store, firebase }: Props) => (
   <Provider store={store}>
     <ReactReduxFirebaseProvider {... firebase}>
       <Router>
+        <AuthIsLoaded>
           <Routes />
+        </AuthIsLoaded>
       </Router>
     </ReactReduxFirebaseProvider>
   </Provider>

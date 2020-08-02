@@ -12,16 +12,16 @@ import { Redirect } from 'react-router-dom';
 class QueuePage extends React.Component<any, any> {
   
   componentDidMount() {
-    if (this.props.authStatus.isLoggedIn) {
+    if (this.props.auth.uid) {
       this.props.getQueue()
       this.props.getPatients()
     }
   }
 
   public render() {
-    const { authStatus } = this.props
+    const { auth } = this.props
 
-    if (!authStatus.isLoggedIn) {
+    if (!auth.uid) {
       return <Redirect to="/login" />
     }
     return <Queue 
@@ -37,7 +37,7 @@ class QueuePage extends React.Component<any, any> {
 function mapStateToProps(state: stateTypeObject) {
   console.log(state)
   return {
-    authStatus: state.auth,
+    auth: state.firebase.auth,
     drawer: state.drawer,
     dialogState: state.dialogState,
     queueList: state.queue,
