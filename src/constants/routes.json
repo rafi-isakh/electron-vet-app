@@ -1,5 +1,6 @@
 {
   "HOME": "/",
   "PATIENT": "/patient",
-  "LOGIN": "/login"
+  "LOGIN": "/login",
+  "MEDREC": "/records"
 }

@@ -65,11 +65,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
   );
 }
 
-// export default compose(
-//   connect(mapStateToProps, mapDispatchToProps),
-//   firestoreConnect([
-//     { collection: 'patients'}
-//   ])
-// )(PatientPage);
-
 export default connect(mapStateToProps, mapDispatchToProps)(PatientPage);
