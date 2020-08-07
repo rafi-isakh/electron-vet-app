@@ -5,7 +5,7 @@ import { History } from 'history';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ReactReduxFirebaseProvider, isLoaded } from 'react-redux-firebase';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Store, Dispatch } from '../reducers/types';
+import { Store, Dispatch, stateTypeObject } from '../reducers/types';
 import Routes from '../Routes';
 
 type FirebaseProps = {
@@ -22,7 +22,7 @@ type Props = {
 };
 
 function AuthIsLoaded({ children }: any) {
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useSelector<any, stateTypeObject>(state => state.firebase.auth)
   if (!isLoaded(auth)) return <LinearProgress color="secondary" />;
   return children
 }

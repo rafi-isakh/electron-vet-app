@@ -6,13 +6,15 @@ const medicalRecordStyle = makeStyles((theme: Theme) =>
       padding: 50,
       marginTop: 50,
       display: 'flex',
-      flexWrap: 'wrap'
+      flexDirection: 'column'
     },
 
     shiftRight: {
       padding: 50,
       marginTop: 50,
-      marginLeft: 240
+      marginLeft: 240,
+      display: 'flex',
+      flexDirection: 'column'
     },
 
     table: {
@@ -20,19 +22,24 @@ const medicalRecordStyle = makeStyles((theme: Theme) =>
     },
     
     paper: {
-      position: 'absolute',
       width: 400,
       backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
+      border: '1px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
+      marginBottom: 40
     },
 
     button: {
       margin: theme.spacing(1),
-      marginBottom: 15,
+      marginTop: 15,
       flex: '50%',
       textAlign: 'right'
+    },
+
+    button2: {
+      marginTop: 15,
+      textAlign: 'left'
     },
 
     input: {

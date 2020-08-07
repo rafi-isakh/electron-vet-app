@@ -21,6 +21,7 @@ export type stateTypeObject = {
   firebase: any;
   patients: any;
   queue: any;
+  medicalRecord: any;
 };
 
 export type GetState = () => stateTypeObject;
