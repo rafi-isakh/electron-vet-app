@@ -2,65 +2,61 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Dispatch, stateTypeObject } from '../reducers/types';
-import Patient from '../components/patient/Patient';
-import { setActiveProfile } from '../actions/activeProfile';
+import Service from '../components/service/Service';
+import { getServices, addService, editService, deleteService } from '../actions/service';
 import { setAddDialogState, setEditDialogState, setDeleteDialogState } from '../actions/dialogState';
-import { addPatient, getPatients, editPatient, deletePatient } from '../actions/patient';
+import { setActiveProfile } from '../actions/activeProfile';
 
-class PatientPage extends React.Component<any, any> {
-  
+class ServicePage extends React.Component<any, any> {
+
   componentDidMount() {
     if (!this.props.auth.isEmpty) {
-      this.props.getPatients()
+      this.props.getServices();
     }
   }
 
   public render() {
-    return <Patient
-      auth={this.props.auth} 
-      drawer={this.props.drawer}
+    return <Service
       activeProfile={this.props.activeProfile}
+      auth={this.props.auth}
+      drawer={this.props.drawer}
       dialogState={this.props.dialogState}
-      patients={this.props.patients}
-      currentPatients={this.props.currentPatients}
+      services={this.props.services}
+      addService={this.props.addService}
+      editService={this.props.editService}
+      deleteService={this.props.deleteService}
       setActiveProfile={this.props.setActiveProfile}
       setAddDialogState={this.props.setAddDialogState}
       setEditDialogState={this.props.setEditDialogState}
-      setDeleteDialogState={this.props.setDeleteDialogState}
-      addPatient={this.props.addPatient}
-      editPatient={this.props.editPatient}
-      deletePatient={this.props.deletePatient}
-      getPatients={this.props.getPatients}
-      />
+      setDeleteDialogState={this.props.setDeleteDialogState}/>
   }
 }
 
 function mapStateToProps(state: stateTypeObject) {
   console.log(state)
   return {
+    activeProfile: state.activeProfile,
     auth: state.firebase.auth,
     drawer: state.drawer,
-    activeProfile: state.activeProfile,
     dialogState: state.dialogState,
-    patients: state.patients,
-    currentPatients: state.patients,
+    services: state.services
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
+      getServices,
+      addService,
+      editService,
+      deleteService,
       setActiveProfile,
       setAddDialogState,
       setEditDialogState,
-      setDeleteDialogState,
-      addPatient,
-      editPatient,
-      deletePatient,
-      getPatients
+      setDeleteDialogState
     },
     dispatch
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PatientPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ServicePage);

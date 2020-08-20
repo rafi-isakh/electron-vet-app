@@ -20,6 +20,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from '@material-ui/icons/Group';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import PetsIcon from '@material-ui/icons/Pets';
 import routes from '../constants/routes.json';
 import drawerStyles from './PersistentDrawerStyle';
 
@@ -108,6 +109,12 @@ export default function PersistentDrawerLeft(props: Props) {
               <ListAltIcon />
             </ListItemIcon>
             <ListItemText primary="Rekam Medis" />
+          </ListItem>
+          <ListItem button key="layanan" component={Link} to={routes.SERVICE}>
+            <ListItemIcon>
+              <PetsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Layanan" />
           </ListItem>
           <Divider />
           <ListItem button key="logout" component={Link} to={routes.LOGIN} onClick={handleLogout}>

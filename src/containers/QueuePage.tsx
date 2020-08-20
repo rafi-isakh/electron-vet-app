@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Queue from '../components/queue/Queue';
 import { stateTypeObject, Dispatch } from '../reducers/types';
-import { signIn } from '../actions/auth';
 import { getPatients } from '../actions/patient';
 import { getQueue, addQueue } from '../actions/queue';
 import { setAddDialogState } from '../actions/dialogState';
@@ -51,8 +50,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       getPatients,
       getQueue,
       addQueue,
-      setAddDialogState,
-      signIn
+      setAddDialogState
     },
     dispatch
   );

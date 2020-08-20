@@ -22,6 +22,7 @@ export type stateTypeObject = {
   patients: any;
   queue: any;
   medicalRecord: any;
+  services: any
 };
 
 export type GetState = () => stateTypeObject;

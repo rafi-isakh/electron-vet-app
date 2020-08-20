@@ -2,5 +2,6 @@
   "HOME": "/",
   "PATIENT": "/patient",
   "LOGIN": "/login",
-  "MEDREC": "/records"
+  "MEDREC": "/records",
+  "SERVICE": "/services"
 }
