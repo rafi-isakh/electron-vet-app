@@ -14,6 +14,7 @@ import AddRecordDialog from "./AddRecordDialog";
 import Alert from "@material-ui/lab/Alert";
 
 type MedRecProps = {
+  activeProfile: any;
   auth: any;
   patients: any;
   medicalRecord: any;
@@ -36,7 +37,7 @@ export interface State extends SnackbarOrigin {
 
 export default function MedicalRecord(props: MedRecProps) {
   const classes = medicalRecordStyle();
-  const { drawer, patients, medicalRecord, dialogState,
+  const { activeProfile, drawer, patients, medicalRecord, dialogState,
     addRecord, getMedicalRecord, createMedicalRecord, setAddDialogState } = props;
 
   const initialValues = {
@@ -82,7 +83,14 @@ export default function MedicalRecord(props: MedRecProps) {
 
   const handleAddRecord = () => {
     if((values.owner === "") || (values.name === "")) {
-      setWarning({ ...warning, open: true });
+      if (_.isEmpty(activeProfile)) {
+        setWarning({ ...warning, open: true });
+      }
+      const payload = {
+        owner: activeProfile.activeProfile,
+        pet: activeProfile.selectedProfile
+      }
+      createMedicalRecord(payload)
     }
     else {
       createMedicalRecord(values)

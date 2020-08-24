@@ -16,7 +16,8 @@ class MedicalRecordPage extends React.Component<any, any> {
   }
 
   public render() {
-    return <MedicalRecord 
+    return <MedicalRecord
+      activeProfile={this.props.activeProfile} 
       auth={this.props.auth}
       drawer={this.props.drawer}
       dialogState={this.props.dialogState}
@@ -32,6 +33,7 @@ class MedicalRecordPage extends React.Component<any, any> {
 function mapStateToProps(state: stateTypeObject) {
     console.log(state)
     return {
+      activeProfile: state.activeProfile,
       auth: state.firebase.auth,
       drawer: state.drawer,
       dialogState: state.dialogState,

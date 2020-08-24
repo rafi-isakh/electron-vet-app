@@ -15,6 +15,7 @@ type Props = {
   queueList: any;
   patients: any;
   setAddDialogState: () => void;
+  setActiveQueue: (owner: string, pet: string) => void;
   addQueue: (item: any) => void;
   getMedicalRecord: (values: any) => void
 };
@@ -24,7 +25,7 @@ export default function Queue(props: Props) {
   const history = useHistory();
   const { 
     drawer, queueList, dialogState, patients, 
-    setAddDialogState, addQueue, getMedicalRecord } = props;
+    setActiveQueue, setAddDialogState, addQueue, getMedicalRecord } = props;
 
   const openAddDialog = () => {
     setAddDialogState()
@@ -37,6 +38,7 @@ export default function Queue(props: Props) {
     const target = event.currentTarget;
     const { name, value } = target;
     const payload = {owner: name, name: value}
+    setActiveQueue(name, value)
     getMedicalRecord(payload);
     history.push(routes.MEDREC)
   }

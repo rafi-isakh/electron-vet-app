@@ -13,7 +13,7 @@ export const getMedicalRecord = (data: any) => {
       .where('pet', '==', data.name)
       .get().then((record: any) => {
         record.forEach((item: any) => {
-          payload = item.data();
+          payload = Object.assign({}, {'id': item.id}, item.data());
         })
         dispatch({ type: GET_MEDICAL_RECORD, payload})
       })
@@ -23,6 +23,7 @@ export const getMedicalRecord = (data: any) => {
 export const addMedicalRecord = (data: any) => {
   return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
     const firestore = getFirestore();
+    console.log('Debug ', data)
     firestore.collection('medical_records').doc(data.id).update({
       ...data,
       modifiedAt: new Date()

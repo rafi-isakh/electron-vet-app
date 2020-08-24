@@ -1,13 +1,14 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Queue from '../components/queue/Queue';
 import { stateTypeObject, Dispatch } from '../reducers/types';
 import { getPatients } from '../actions/patient';
 import { getQueue, addQueue } from '../actions/queue';
 import { setAddDialogState } from '../actions/dialogState';
 import { getMedicalRecord } from '../actions/medicalRecord';
-import { Redirect } from 'react-router-dom';
+import { setActiveProfile } from '../actions/activeProfile';
 
 class QueuePage extends React.Component<any, any> {
   
@@ -31,7 +32,8 @@ class QueuePage extends React.Component<any, any> {
       patients={this.props.patients}
       setAddDialogState={this.props.setAddDialogState}
       addQueue={this.props.addQueue}
-      getMedicalRecord={this.props.getMedicalRecord}/>
+      getMedicalRecord={this.props.getMedicalRecord}
+      setActiveQueue={this.props.setActiveProfile}/>
   }
 }
 
@@ -52,6 +54,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       getPatients,
       getQueue,
       addQueue,
+      setActiveProfile,
       setAddDialogState,
       getMedicalRecord
     },
