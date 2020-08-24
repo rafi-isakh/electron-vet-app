@@ -76,6 +76,7 @@ export default function MedicalRecord(props: MedRecProps) {
 
   const handleSearch = (event: any) => {
     getMedicalRecord(values)
+    setValues(initialValues)
     event.preventDefault();
   }
 
@@ -95,6 +96,17 @@ export default function MedicalRecord(props: MedRecProps) {
   const closeAddDialog = () => {
   }
 
+  const recordInfo = (
+    <div>
+      <Typography variant="body1" gutterBottom>
+        Nama hewan: {medicalRecord.pet}
+      </Typography> 
+      <Typography variant="subtitle2" gutterBottom>
+        Pemilik: {medicalRecord.owner}
+      </Typography><br />
+    </div>
+  )
+
   let recordContent
   if(!_.isEmpty(medicalRecord)) {
     recordContent = (<div>
@@ -104,7 +116,8 @@ export default function MedicalRecord(props: MedRecProps) {
          onClose={closeAddDialog} 
          dialogState={setAddDialogState}
          patient={medicalRecord}
-         addRecord={addRecord}/>  
+         addRecord={addRecord}/>
+      {recordInfo}  
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
@@ -167,6 +180,7 @@ export default function MedicalRecord(props: MedRecProps) {
   }
 
   const options = _.values(patients.patients)
+  
   return(
     <div className={drawer ? classes.shiftRight : classes.root}>
       <CssBaseline />
@@ -200,7 +214,6 @@ export default function MedicalRecord(props: MedRecProps) {
             variant="contained"
             color="primary"
             onClick={handleSearch}
-            // className={classes.submit}
           >
            Cari
         </Button>

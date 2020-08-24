@@ -6,6 +6,7 @@ import { stateTypeObject, Dispatch } from '../reducers/types';
 import { getPatients } from '../actions/patient';
 import { getQueue, addQueue } from '../actions/queue';
 import { setAddDialogState } from '../actions/dialogState';
+import { getMedicalRecord } from '../actions/medicalRecord';
 import { Redirect } from 'react-router-dom';
 
 class QueuePage extends React.Component<any, any> {
@@ -29,7 +30,8 @@ class QueuePage extends React.Component<any, any> {
       queueList={this.props.queueList}
       patients={this.props.patients}
       setAddDialogState={this.props.setAddDialogState}
-      addQueue={this.props.addQueue}/>
+      addQueue={this.props.addQueue}
+      getMedicalRecord={this.props.getMedicalRecord}/>
   }
 }
 
@@ -50,7 +52,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
       getPatients,
       getQueue,
       addQueue,
-      setAddDialogState
+      setAddDialogState,
+      getMedicalRecord
     },
     dispatch
   );
