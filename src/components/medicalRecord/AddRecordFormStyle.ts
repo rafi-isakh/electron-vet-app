@@ -27,7 +27,16 @@ const recordFormStyle = makeStyles((theme: Theme) =>
 
     buttonItem: {
       marginLeft: 10
-    }
+    },
+
+    chips: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+
+    chip: {
+      margin: 2,
+    },
   }),
 );
 

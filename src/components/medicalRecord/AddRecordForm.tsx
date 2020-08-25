@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import _ from 'lodash'
+import { useTheme } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Chip from '@material-ui/core/Chip';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import recordFormStyle from "./AddRecordFormStyle";
 import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
 
 export interface AddRecordProps {
   addDialogState: any;
@@ -12,14 +19,25 @@ export interface AddRecordProps {
   patient: any;
 }
 
+function getStyles(name: string, personName: any, theme: any) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 export default function AddRecordForm(props: AddRecordProps) {
   const classes = recordFormStyle();
+  const theme = useTheme();
   const { addDialogState, addRecord, patient } = props
   const initialValues = {
     keluhan: "",
     diagnosa: "",
   }
   const [values, setValues] = useState(initialValues || {})
+  const [personName, setPersonName] = React.useState([]);
   
   const handleSaveButton = () => {
     const index = (patient.records !== undefined && !_.isEmpty(patient.records)) ? _.keys(patient.records).length + 1 : 0;
@@ -49,6 +67,23 @@ export default function AddRecordForm(props: AddRecordProps) {
     setValues({...values, [name]: value})
   }
 
+  const handleSelect = (event: any) => {
+    setPersonName(event.target.value);
+  };
+
+  const names = [
+    'Oliver Hansen',
+    'Van Henry',
+    'April Tucker',
+    'Ralph Hubbard',
+    'Omar Alexander',
+    'Carlos Abbott',
+    'Miriam Wagner',
+    'Bradley Wilkerson',
+    'Virginia Andrews',
+    'Kelly Snyder',
+  ];
+
   return(
     <div>
       <form className={classes.root} noValidate autoComplete="off">
@@ -72,6 +107,32 @@ export default function AddRecordForm(props: AddRecordProps) {
           onChange={handleChange} 
           name="diagnosa" 
           value={values.diagnosa} />
+        <FormControl>
+        <InputLabel id="multiple-chip-label">Obat / Tindakan</InputLabel>
+        <Select
+          labelId="multiple-chip-label"
+          id="multiple-chip"
+          multiple
+          autoWidth
+          variant="outlined"
+          value={personName}
+          onChange={handleSelect}
+          input={<Input id="select-multiple-chip" />}
+          renderValue={(selected: any) => (
+            <div className={classes.chips}>
+              {selected.map((value: any) => (
+                <Chip key={value} label={value} className={classes.chip} />
+              ))}
+            </div>
+          )}
+        >
+          {names.map((name: string) => (
+            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+        </FormControl>  
       </form>
       <div className={classes.button}>
         <Button
