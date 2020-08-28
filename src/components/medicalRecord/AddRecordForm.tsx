@@ -12,11 +12,13 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import recordFormStyle from "./AddRecordFormStyle";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 export interface AddRecordProps {
   addDialogState: any;
   addRecord: any;
   patient: any;
+  serviceList: any;
 }
 
 function getStyles(name: string, personName: any, theme: any) {
@@ -31,7 +33,7 @@ function getStyles(name: string, personName: any, theme: any) {
 export default function AddRecordForm(props: AddRecordProps) {
   const classes = recordFormStyle();
   const theme = useTheme();
-  const { addDialogState, addRecord, patient } = props
+  const { addDialogState, addRecord, patient, serviceList } = props
   const initialValues = {
     keluhan: "",
     diagnosa: "",
@@ -126,11 +128,22 @@ export default function AddRecordForm(props: AddRecordProps) {
             </div>
           )}
         >
-          {names.map((name: string) => (
-            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-              {name}
-            </MenuItem>
-          ))}
+          {Object.entries(serviceList).map(([key, itemList]) => (
+            serviceList[key].map((name: string) => (
+              <div>
+                <ListSubheader>{key}</ListSubheader>
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+            </div>)
+          )))}
+          {/* {names.map((name: string) => (
+            <div>
+              <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                {name}
+              </MenuItem>
+            </div>
+          ))} */}
         </Select>
         </FormControl>  
       </form>

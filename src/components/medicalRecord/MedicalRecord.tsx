@@ -20,6 +20,7 @@ type MedRecProps = {
   medicalRecord: any;
   drawer: boolean;
   dialogState: any;
+  services: any;
   addRecord: (data: any) => void;
   setAddDialogState: () => void;
   getMedicalRecord: (data: any) => void;
@@ -31,20 +32,43 @@ function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('id-ID', options).format(date);
 }
 
+function groupServiceByCategory(services: any): any {
+  let serviceGroup: any = {};
+  let listedCategories: any[] = [];
+  for (let key in services) {
+    const category = services[key].category
+    const name = services[key].name
+
+    if (!listedCategories.includes(category)) {
+      listedCategories.push(category);
+      let itemList: any[] = []
+      itemList.push(name)
+      Object.assign(serviceGroup, {[category]: itemList})
+    }
+    else {
+      let currentList = serviceGroup[category]
+      currentList.push(name)
+      Object.assign(serviceGroup, {[category]: currentList})
+    }
+  }
+  return serviceGroup
+}
+
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
 
 export default function MedicalRecord(props: MedRecProps) {
   const classes = medicalRecordStyle();
-  const { activeProfile, drawer, patients, medicalRecord, dialogState,
+  const { activeProfile, drawer, patients, medicalRecord, dialogState, services,
     addRecord, getMedicalRecord, createMedicalRecord, setAddDialogState } = props;
 
   const initialValues = {
-    owner: "",
-    name: ""
+    owner: activeProfile.activeProfile,
+    name: activeProfile.selectedProfile
   };
-  const [values, setValues] = useState(initialValues || {});
+  
+  const [values, setValues] = useState(initialValues);
   const [pets, setPets] = useState({})
 
   const [warning, setWarning] = React.useState<State>({
@@ -53,7 +77,6 @@ export default function MedicalRecord(props: MedRecProps) {
     horizontal: 'center',
   });
   const { vertical, horizontal, open } = warning;
-
   const handleClose = () => {
     setWarning({ ...warning, open: false });
   };
@@ -81,16 +104,19 @@ export default function MedicalRecord(props: MedRecProps) {
     event.preventDefault();
   }
 
+  const serviceList = groupServiceByCategory(services)
   const handleAddRecord = () => {
     if((values.owner === "") || (values.name === "")) {
       if (_.isEmpty(activeProfile)) {
         setWarning({ ...warning, open: true });
       }
-      const payload = {
-        owner: activeProfile.activeProfile,
-        pet: activeProfile.selectedProfile
+      else {
+        const payload = {
+          owner: activeProfile.activeProfile,
+          pet: activeProfile.selectedProfile
+        }
+        createMedicalRecord(payload)
       }
-      createMedicalRecord(payload)
     }
     else {
       createMedicalRecord(values)
@@ -124,6 +150,7 @@ export default function MedicalRecord(props: MedRecProps) {
          onClose={closeAddDialog} 
          dialogState={setAddDialogState}
          patient={medicalRecord}
+         serviceList={serviceList}
          addRecord={addRecord}/>
       {recordInfo}  
       <TableContainer component={Paper}>
