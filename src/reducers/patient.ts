@@ -13,30 +13,18 @@ export default function patient (state = initialState, action: PatientActions) {
     case ADD_NEW_PATIENT:
       return {
         ...state,
-        patients: {
-          ...state.patients,
-          [action.payload.id]: action.payload
-        }
-      };
+        [action.payload.id]: action.payload
+      }
     case GET_PATIENT_LIST:
-      return {
-        ...state,
-        patients: action.payload
-      };
+      return Object.assign({}, action.payload);
     case EDIT_PATIENT:
       return {
         ...state,
-        patients: {
-            ...state.patients,
-            [action.payload.selected.activeProfile]: action.payload.patient
-          }
-      };
+        [action.payload.selected.activeProfile]: action.payload.patient
+      }
     case DELETE_PATIENT:
-        const patients = _.omit(state.patients, action.payload.activeProfile)
-        return {
-          ...state,
-          patients
-        };  
+      const patients = _.omit(state, action.payload.activeProfile)
+      return Object.assign({}, patients); 
     default:
       return state;
   }

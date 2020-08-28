@@ -63,7 +63,7 @@ export default function Patient(props: Props) {
     const { value } = target;
     event.persist();
     setName(value);
-    let test = _.values(patients.patients).filter((patient: any) => {
+    let test = _.values(patients).filter((patient: any) => {
       const refinedInput = new RegExp(value, 'i');
       return patient.name.match(refinedInput)
     })
@@ -99,12 +99,12 @@ export default function Patient(props: Props) {
     dataSource = patients
   }
   else {
-    dataSource = Object.assign({},{'patients': search});
+    dataSource = Object.assign({}, search);
   }
 
   if(dataSource !== undefined && !_.isEmpty(dataSource)) {
     tableContents = (<TableBody>
-      {_.values(dataSource.patients).map((patient: any, idx: number) => (
+      {_.values(dataSource).map((patient: any, idx: number) => (
         <TableRow key={patient.name}>
           <TableCell component="th" scope="row">
             {patient.name}
@@ -123,7 +123,7 @@ export default function Patient(props: Props) {
               activeProfile={activeProfile}
               action={editPatient}
               refreshAction={getPatients} 
-              patientData={currentPatients.patients}/>
+              patientData={currentPatients}/>
             <Tooltip title="Edit">
               <IconButton aria-label="edit" value={patient.id} name={idx.toString()} onClick={openEditDialog}>
                 <EditIcon />
@@ -133,7 +133,7 @@ export default function Patient(props: Props) {
               open={dialogState.editPatientDialog} 
               onClose={closeAddDialog} 
               dialogState={setEditDialogState}
-              currentData={currentPatients.patients}
+              currentData={currentPatients}
               activeProfile={activeProfile}
               editPatient={editPatient}/>
             <Tooltip title="Delete">

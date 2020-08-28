@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import _ from 'lodash'
-import { useTheme } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
@@ -12,32 +11,24 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import recordFormStyle from "./AddRecordFormStyle";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 export interface AddRecordProps {
   addDialogState: any;
   addRecord: any;
   patient: any;
-}
-
-function getStyles(name: string, personName: any, theme: any) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
+  serviceList: any;
 }
 
 export default function AddRecordForm(props: AddRecordProps) {
   const classes = recordFormStyle();
-  const theme = useTheme();
-  const { addDialogState, addRecord, patient } = props
+  const { addDialogState, addRecord, patient, serviceList } = props
   const initialValues = {
     keluhan: "",
-    diagnosa: "",
+    diagnosa: ""
   }
   const [values, setValues] = useState(initialValues || {})
-  const [personName, setPersonName] = React.useState([]);
+  const [services, setServices] = React.useState([]);
   
   const handleSaveButton = () => {
     const index = (patient.records !== undefined && !_.isEmpty(patient.records)) ? _.keys(patient.records).length + 1 : 0;
@@ -68,21 +59,20 @@ export default function AddRecordForm(props: AddRecordProps) {
   }
 
   const handleSelect = (event: any) => {
-    setPersonName(event.target.value);
+    setServices(event.target.value);
   };
 
-  const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-  ];
+  let options: any[] =[]
+  Object.entries(serviceList).map(([key]) => {
+    let currentKeyGroup = 0;
+    
+    serviceList[key].map((name: string) => {
+    currentKeyGroup++
+    if (currentKeyGroup === 1) {
+      options.push(<ListSubheader>{key}</ListSubheader>)
+    }
+    options.push(<MenuItem key={name} value={name}>{name}</MenuItem>)
+  })})
 
   return(
     <div>
@@ -115,7 +105,7 @@ export default function AddRecordForm(props: AddRecordProps) {
           multiple
           autoWidth
           variant="outlined"
-          value={personName}
+          value={services}
           onChange={handleSelect}
           input={<Input id="select-multiple-chip" />}
           renderValue={(selected: any) => (
@@ -126,11 +116,9 @@ export default function AddRecordForm(props: AddRecordProps) {
             </div>
           )}
         >
-          {names.map((name: string) => (
-            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-              {name}
-            </MenuItem>
-          ))}
+          {options.map((optionItem: any) => {
+            return optionItem
+          })}
         </Select>
         </FormControl>  
       </form>

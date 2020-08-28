@@ -8,18 +8,12 @@ const initialState = {
 export default function queue (state = initialState, action: QueueActions) {
   switch(action.type) {
     case GET_QUEUE_LIST:
-      return {
-        ...state,
-        queue: action.payload
-      };
+      return Object.assign({}, action.payload);
     case ADD_QUEUE:
       return {
         ...state,
-        queue: {
-          ...state.queue,
-          [action.payload.id]: action.payload
-        }
-      };
+        [action.payload.id]: action.payload
+      }
     default:
       return state;
   }

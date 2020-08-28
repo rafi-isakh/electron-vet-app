@@ -46,7 +46,7 @@ export default function Queue(props: Props) {
   let tableContents
   if (queueList !== undefined && !_.isEmpty(queueList)) {
     tableContents = (<TableBody>
-      {_.values(queueList.queue).map((item) => (
+      {_.values(queueList).map((item) => (
         <TableRow key={item.name}>
           <TableCell component="th" scope="row">{item.name}</TableCell>
           <TableCell align="left">{item.owner}</TableCell>
