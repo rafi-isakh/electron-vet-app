@@ -30,6 +30,7 @@ class MedicalRecordPage extends React.Component<any, any> {
       dialogState={this.props.dialogState}
       medicalRecord={this.props.medicalRecord}
       patients={this.props.patients}
+      queue={this.props.queueList}
       services={this.props.services}
       getMedicalRecord={this.props.getMedicalRecord}
       addRecord={this.props.addMedicalRecord}

@@ -16,15 +16,20 @@ import Alert from "@material-ui/lab/Alert";
 type MedRecProps = {
   activeProfile: any;
   auth: any;
-  patients: any;
-  medicalRecord: any;
-  drawer: boolean;
   dialogState: any;
+  drawer: boolean;
+  medicalRecord: any;
+  patients: any;
+  queue: any;
   services: any;
   addRecord: (data: any) => void;
   setAddDialogState: () => void;
   getMedicalRecord: (data: any) => void;
   createMedicalRecord: (data: any) => void;
+}
+
+export interface State extends SnackbarOrigin {
+  open: boolean;
 }
 
 function formatDate(date: Date): string {
@@ -54,13 +59,18 @@ function groupServiceByCategory(services: any): any {
   return serviceGroup
 }
 
-export interface State extends SnackbarOrigin {
-  open: boolean;
+function isInQueue(queueList: any, values: any): boolean {
+  const patient: any = _.values(queueList).find((patient: any) => 
+    patient.name === values.name && patient.owner === values.owner)
+  if (patient && patient.treatment === 'Pemeriksaan') {
+    return true
+  }
+  return false
 }
 
 export default function MedicalRecord(props: MedRecProps) {
   const classes = medicalRecordStyle();
-  const { activeProfile, drawer, patients, medicalRecord, dialogState, services,
+  const { activeProfile, drawer, patients, medicalRecord, dialogState, queue, services,
     addRecord, getMedicalRecord, createMedicalRecord, setAddDialogState } = props;
 
   const initialValues = {
@@ -100,7 +110,6 @@ export default function MedicalRecord(props: MedRecProps) {
 
   const handleSearch = (event: any) => {
     getMedicalRecord(values)
-    setValues(initialValues)
     event.preventDefault();
   }
 
@@ -174,7 +183,7 @@ export default function MedicalRecord(props: MedRecProps) {
         </Table>
       </TableContainer>
       </div>
-      <div className={classes.button}>
+      { isInQueue(queue, values) ? <div className={classes.button}>
         <Button
           variant="contained"
           color="default"
@@ -184,7 +193,7 @@ export default function MedicalRecord(props: MedRecProps) {
         >
           Tambah data
         </Button>
-      </div>
+      </div> : null }
     </div>)
   }
   else {

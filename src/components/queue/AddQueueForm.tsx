@@ -51,7 +51,7 @@ export default function AddQueueForm(props: AddDialogProps) {
     setPets(pets)
   }
   
-  const options = _.values(patients.patients)
+  const options = _.values(patients)
   return(
     <div>
       <form className={classes.root} noValidate autoComplete="off">
