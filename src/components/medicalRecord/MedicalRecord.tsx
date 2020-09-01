@@ -159,6 +159,7 @@ export default function MedicalRecord(props: MedRecProps) {
          onClose={closeAddDialog} 
          dialogState={setAddDialogState}
          patient={medicalRecord}
+         priceList={services}
          serviceList={serviceList}
          addRecord={addRecord}/>
       {recordInfo}  

@@ -17,12 +17,13 @@ export interface AddRecordProps {
   addDialogState: any;
   addRecord: any;
   patient: any;
+  priceList: any;
   serviceList: any;
 }
 
 export default function AddRecordForm(props: AddRecordProps) {
   const classes = recordFormStyle();
-  const { addDialogState, addRecord, patient, serviceList } = props
+  const { addDialogState, addRecord, patient, priceList, serviceList } = props
   const initialValues = {
     keluhan: "",
     diagnosa: ""
@@ -44,7 +45,20 @@ export default function AddRecordForm(props: AddRecordProps) {
         [index]: recordItem
       }
     }
-    addRecord(record)
+
+    let items: any[] = []
+    const selected: any[] = services
+    _.values(priceList).map((service: any) => {
+      if (selected.includes(service.name)) {
+        items.push({name: service.name, price: service.price})
+      }
+    })
+    console.log(items)
+    let totalPrice = items.reduce((accumulator: any, currentValue: any) => {
+      return accumulator + parseInt(currentValue.price)
+    }, 0)
+    console.log(totalPrice)
+    // addRecord(record)
     addDialogState();
   }
 

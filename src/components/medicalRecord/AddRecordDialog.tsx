@@ -12,16 +12,17 @@ export interface AddRecordDialogProps {
   addRecord: any;
   patient: any;
   serviceList: any;
+  priceList: any;
 }
 
 function AddRecordDialog(props: AddRecordDialogProps) {
   const classes = addRecordDialogStyle();
-  const { onClose, open, dialogState, patient, addRecord, serviceList } = props;
+  const { onClose, open, dialogState, patient, addRecord, serviceList, priceList } = props;
 
   const handleClose = () => {
     onClose("Close dialog");
   };
-
+  
   return (
     <Dialog 
       onClose={handleClose}
@@ -34,7 +35,12 @@ function AddRecordDialog(props: AddRecordDialogProps) {
         <ListAltIcon className={classes.dialogTitleIcon}/>
         <h2>Data rekam medis</h2>
       </DialogTitle>
-      <AddRecordForm addDialogState={dialogState} addRecord={addRecord} patient={patient} serviceList={serviceList}/>
+      <AddRecordForm 
+        addDialogState={dialogState} 
+        addRecord={addRecord} 
+        patient={patient}
+        priceList={priceList} 
+        serviceList={serviceList}/>
     </Dialog>
   );
   
