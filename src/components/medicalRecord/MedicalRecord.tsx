@@ -22,6 +22,7 @@ type MedRecProps = {
   patients: any;
   queue: any;
   services: any;
+  addBilling: (data: any) => void;
   addRecord: (data: any) => void;
   setAddDialogState: () => void;
   getMedicalRecord: (data: any) => void;
@@ -59,19 +60,19 @@ function groupServiceByCategory(services: any): any {
   return serviceGroup
 }
 
-function isInQueue(queueList: any, values: any): boolean {
+function isInQueue(queueList: any, values: any): string {
   const patient: any = _.values(queueList).find((patient: any) => 
     patient.name === values.name && patient.owner === values.owner)
   if (patient && patient.treatment === 'Pemeriksaan') {
-    return true
+    return patient.id;
   }
-  return false
+  return "";
 }
 
 export default function MedicalRecord(props: MedRecProps) {
   const classes = medicalRecordStyle();
   const { activeProfile, drawer, patients, medicalRecord, dialogState, queue, services,
-    addRecord, getMedicalRecord, createMedicalRecord, setAddDialogState } = props;
+    addBilling, addRecord, getMedicalRecord, createMedicalRecord, setAddDialogState } = props;
 
   const initialValues = {
     owner: activeProfile.activeProfile,
@@ -151,6 +152,7 @@ export default function MedicalRecord(props: MedRecProps) {
   )
 
   let recordContent
+  const queueId = isInQueue(queue,values)
   if(!_.isEmpty(medicalRecord)) {
     recordContent = (<div>
       <div>
@@ -159,8 +161,10 @@ export default function MedicalRecord(props: MedRecProps) {
          onClose={closeAddDialog} 
          dialogState={setAddDialogState}
          patient={medicalRecord}
+         queueId={queueId}
          priceList={services}
          serviceList={serviceList}
+         addBilling={addBilling}
          addRecord={addRecord}/>
       {recordInfo}  
       <TableContainer component={Paper}>
@@ -184,7 +188,7 @@ export default function MedicalRecord(props: MedRecProps) {
         </Table>
       </TableContainer>
       </div>
-      { isInQueue(queue, values) ? <div className={classes.button}>
+      { queueId !== "" ? <div className={classes.button}>
         <Button
           variant="contained"
           color="default"

@@ -14,16 +14,39 @@ import FormControl from "@material-ui/core/FormControl";
 import ListSubheader from "@material-ui/core/ListSubheader";
 
 export interface AddRecordProps {
+  addBilling: any;
   addDialogState: any;
   addRecord: any;
   patient: any;
   priceList: any;
+  queueId: string;
   serviceList: any;
+}
+
+function generateBilling(queueId: string, services: any, priceList:any): any {
+  let items: any[] = []
+  const selected: any[] = services
+  _.values(priceList).map((service: any) => {
+    if (selected.includes(service.name)) {
+      items.push({name: service.name, price: service.price})
+    }
+  })
+
+  let totalPrice = items.reduce((accumulator: any, currentValue: any) => {
+    return accumulator + parseInt(currentValue.price)
+  }, 0)
+  const billing = {
+    queueId,
+    items,
+    totalPrice
+  }
+  
+  return billing;
 }
 
 export default function AddRecordForm(props: AddRecordProps) {
   const classes = recordFormStyle();
-  const { addDialogState, addRecord, patient, priceList, serviceList } = props
+  const { addDialogState, addRecord, addBilling, patient, priceList, queueId, serviceList } = props
   const initialValues = {
     keluhan: "",
     diagnosa: ""
@@ -46,19 +69,10 @@ export default function AddRecordForm(props: AddRecordProps) {
       }
     }
 
-    let items: any[] = []
-    const selected: any[] = services
-    _.values(priceList).map((service: any) => {
-      if (selected.includes(service.name)) {
-        items.push({name: service.name, price: service.price})
-      }
-    })
-    console.log(items)
-    let totalPrice = items.reduce((accumulator: any, currentValue: any) => {
-      return accumulator + parseInt(currentValue.price)
-    }, 0)
-    console.log(totalPrice)
     // addRecord(record)
+
+    const billing = generateBilling(queueId, services, priceList)
+    addBilling(billing)
     addDialogState();
   }
 
