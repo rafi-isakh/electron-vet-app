@@ -6,7 +6,7 @@ import Queue from '../components/queue/Queue';
 import { stateTypeObject, Dispatch } from '../reducers/types';
 import { getPatients } from '../actions/patient';
 import { getQueue, addQueue } from '../actions/queue';
-import { setAddDialogState } from '../actions/dialogState';
+import { setAddDialogState, setEditDialogState } from '../actions/dialogState';
 import { getMedicalRecord } from '../actions/medicalRecord';
 import { setActiveProfile } from '../actions/activeProfile';
 
@@ -30,7 +30,9 @@ class QueuePage extends React.Component<any, any> {
       dialogState={this.props.dialogState}
       queueList={this.props.queueList}
       patients={this.props.patients}
+      services={this.props.services}
       setAddDialogState={this.props.setAddDialogState}
+      setEditDialogState={this.props.setEditDialogState}
       addQueue={this.props.addQueue}
       getMedicalRecord={this.props.getMedicalRecord}
       setActiveQueue={this.props.setActiveProfile}/>
@@ -44,7 +46,8 @@ function mapStateToProps(state: stateTypeObject) {
     drawer: state.drawer,
     dialogState: state.dialogState,
     queueList: state.queue,
-    patients: state.patients
+    patients: state.patients,
+    services: state.services
   };
 }
 
@@ -56,6 +59,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       addQueue,
       setActiveProfile,
       setAddDialogState,
+      setEditDialogState,
       getMedicalRecord
     },
     dispatch
