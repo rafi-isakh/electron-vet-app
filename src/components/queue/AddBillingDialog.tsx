@@ -2,6 +2,7 @@ import React from 'react'
 import { Dialog, DialogTitle } from '@material-ui/core';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import addQueueDialogStyle from './AddQueueDialogStyle';
+import AddBillingForm from './AddBillingForm';
 
 export interface AddBillingProps {
   open: boolean;
@@ -22,13 +23,14 @@ function AddBillingDialog(props: AddBillingProps) {
       onClose={handleClose}
       aria-labelledby="add-billing-dialog"
       open={open}
-      maxWidth="sm"
+      maxWidth="md"
       fullWidth={true}
       disableBackdropClick>
     <DialogTitle disableTypography id="edit-dialog-title" className={classes.dialogTitle}>
       <ReceiptIcon className={classes.dialogTitleIcon}/>
         <h2>Data pembayaran</h2>
       </DialogTitle>
+      <AddBillingForm editDialogState={dialogState} />
     </Dialog>
   )
 }
