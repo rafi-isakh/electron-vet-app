@@ -16,15 +16,21 @@ import Alert from "@material-ui/lab/Alert";
 type MedRecProps = {
   activeProfile: any;
   auth: any;
-  patients: any;
-  medicalRecord: any;
-  drawer: boolean;
   dialogState: any;
+  drawer: boolean;
+  medicalRecord: any;
+  patients: any;
+  queue: any;
   services: any;
+  addBilling: (data: any) => void;
   addRecord: (data: any) => void;
   setAddDialogState: () => void;
   getMedicalRecord: (data: any) => void;
   createMedicalRecord: (data: any) => void;
+}
+
+export interface State extends SnackbarOrigin {
+  open: boolean;
 }
 
 function formatDate(date: Date): string {
@@ -54,14 +60,19 @@ function groupServiceByCategory(services: any): any {
   return serviceGroup
 }
 
-export interface State extends SnackbarOrigin {
-  open: boolean;
+function isInQueue(queueList: any, values: any): string {
+  const patient: any = _.values(queueList).find((patient: any) => 
+    patient.name === values.name && patient.owner === values.owner)
+  if (patient && patient.treatment === 'Pemeriksaan') {
+    return patient.id;
+  }
+  return "";
 }
 
 export default function MedicalRecord(props: MedRecProps) {
   const classes = medicalRecordStyle();
-  const { activeProfile, drawer, patients, medicalRecord, dialogState, services,
-    addRecord, getMedicalRecord, createMedicalRecord, setAddDialogState } = props;
+  const { activeProfile, drawer, patients, medicalRecord, dialogState, queue, services,
+    addBilling, addRecord, getMedicalRecord, createMedicalRecord, setAddDialogState } = props;
 
   const initialValues = {
     owner: activeProfile.activeProfile,
@@ -100,7 +111,6 @@ export default function MedicalRecord(props: MedRecProps) {
 
   const handleSearch = (event: any) => {
     getMedicalRecord(values)
-    setValues(initialValues)
     event.preventDefault();
   }
 
@@ -142,6 +152,7 @@ export default function MedicalRecord(props: MedRecProps) {
   )
 
   let recordContent
+  const queueId = isInQueue(queue,values)
   if(!_.isEmpty(medicalRecord)) {
     recordContent = (<div>
       <div>
@@ -150,7 +161,10 @@ export default function MedicalRecord(props: MedRecProps) {
          onClose={closeAddDialog} 
          dialogState={setAddDialogState}
          patient={medicalRecord}
+         queueId={queueId}
+         priceList={services}
          serviceList={serviceList}
+         addBilling={addBilling}
          addRecord={addRecord}/>
       {recordInfo}  
       <TableContainer component={Paper}>
@@ -174,7 +188,7 @@ export default function MedicalRecord(props: MedRecProps) {
         </Table>
       </TableContainer>
       </div>
-      <div className={classes.button}>
+      { queueId !== "" ? <div className={classes.button}>
         <Button
           variant="contained"
           color="default"
@@ -184,7 +198,7 @@ export default function MedicalRecord(props: MedRecProps) {
         >
           Tambah data
         </Button>
-      </div>
+      </div> : null }
     </div>)
   }
   else {
@@ -214,7 +228,7 @@ export default function MedicalRecord(props: MedRecProps) {
     </div>)
   }
 
-  const options = _.values(patients.patients)
+  const options = _.values(patients)
   
   return(
     <div className={drawer ? classes.shiftRight : classes.root}>

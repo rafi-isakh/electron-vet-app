@@ -2,6 +2,7 @@ import { Dispatch, GetState } from '../reducers/types'
 
 export const GET_QUEUE_LIST = 'GET_QUEUE_LIST';
 export const ADD_QUEUE = 'ADD_QUEUE';
+export const ADD_BILLING = 'ADD_BILLING'
 
 export const getQueue = () => {
   return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
@@ -35,3 +36,15 @@ export const addQueue = (queueItem: any) => {
     })
   }
 };
+
+export const addBilling = (billing: any) => {
+  return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
+    const firestore = getFirestore();
+    firestore.collection('billing').add({
+      ...billing,
+      createdAt: new Date()
+    }).then((data: any) => {
+      dispatch({ type: ADD_BILLING, payload: {queue: billing.queueId, billing: data.id}});
+    })
+  }
+}
