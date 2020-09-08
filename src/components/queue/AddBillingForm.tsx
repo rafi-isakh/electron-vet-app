@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import billingFormStyle from './AddBillingFormStyle';
 import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
@@ -25,6 +26,19 @@ function sumPrice(values: any): number {
   return totalPrice;
 }
 
+function deductPrice(value: any): number {
+  let deductedPrice = 0;
+  if (value['amount'] !== '' && value['price'] !== '') {
+    deductedPrice = parseInt(value['amount']) * parseInt(value['price'])
+  }
+  return deductedPrice;
+}
+
+function formatPrice(price: number): string {
+  const options = { style: 'currency', currency: 'IDR' }
+  return new Intl.NumberFormat('id-ID', options).format(price);
+}
+
 export default function AddBillingForm(props: AddBillingProps) {
   const classes = billingFormStyle();
   const { editDialogState, billing, activeProfile } = props;
@@ -32,17 +46,27 @@ export default function AddBillingForm(props: AddBillingProps) {
   const initialValues: any[] = []
   let totalPrice: number = 0
 
-  if(billing !== undefined && !_.isEmpty(billing)) {
+  if(!_.isEmpty(billing)) {
     const selected = billing[activeProfile.queueId]
-    selected.items.map((item: any) => {
+    if (selected !== undefined) {
+      selected.items.map((item: any) => {
+        const value = {
+          item: item.name,
+          amount: 1,
+          price: item.price
+        }
+        initialValues.push(value)
+      })
+      totalPrice = selected.totalPrice;
+    }
+    else {
       const value = {
-        item: item.name,
-        amount: 1,
-        price: item.price
+        item: '',
+        amount: '',
+        price: ''
       }
       initialValues.push(value)
-    })
-    totalPrice = selected.totalPrice;
+    }
   }
 
   const [fields, setFields] = useState(initialValues);
@@ -70,6 +94,8 @@ export default function AddBillingForm(props: AddBillingProps) {
 
   const handleRemoveItem = (i: number) => {
     const values = [...fields]
+    const deductedPrice = deductPrice(values[i])
+    setTotal(total - deductedPrice)
     values.splice(i, 1);
     setFields(values);
   }
@@ -112,13 +138,24 @@ export default function AddBillingForm(props: AddBillingProps) {
           </IconButton>
         </div>
       )})}
+      <div className={classes.button}>
       <TextField 
         id="total"
         className={classes.text} 
         label="Total harga"
         variant="outlined"
         name="total"
-        value={total} />
+        value={formatPrice(total)} />
+       <Button
+          variant="contained"
+          color="default"
+          size="small"
+          startIcon={<AccountBalanceWalletIcon />}
+          // onClick={openAddDialog}
+        >
+          Bayar
+        </Button>
+      </div>
       </form>
     </div>
   )

@@ -26,8 +26,7 @@ function AddBillingDialog(props: AddBillingProps) {
       aria-labelledby="add-billing-dialog"
       open={open}
       maxWidth="md"
-      fullWidth={true}
-      disableBackdropClick>
+      fullWidth={true}>
     <DialogTitle disableTypography id="edit-dialog-title" className={classes.dialogTitle}>
       <ReceiptIcon className={classes.dialogTitleIcon}/>
         <h2>Data pembayaran</h2>

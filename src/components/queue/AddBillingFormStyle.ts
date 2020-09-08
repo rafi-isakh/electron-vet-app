@@ -19,7 +19,6 @@ const billingFormStyle = makeStyles((theme: Theme) =>
     },
 
     button: {
-      margin: theme.spacing(1),
       marginBottom: 15,
       display: 'flex',
       justifyContent: 'flex-end',
