@@ -16,6 +16,7 @@ export type stateTypeObject = {
   auth: any,
   drawer: boolean;
   activeProfile: any;
+  billing: any;
   dialogState: DialogState;
   firestore: any;
   firebase: any;

@@ -10,13 +10,17 @@ import queueStyle from './QueueStyle';
 import AddQueueDialog from './AddQueueDialog';
 import routes from '../../constants/routes.json';
 import AddBillingDialog from './AddBillingDialog';
+import { getBilling } from '../../actions/queue';
 
 type Props = {
+  activeProfile: any;
+  billing: any;
   drawer: boolean;
   dialogState: any;
   queueList: any;
   patients: any;
   services: any;
+  setActiveBilling: (queueId: string) => void;
   setAddDialogState: () => void;
   setActiveQueue: (owner: string, pet: string) => void;
   setEditDialogState: () => void;
@@ -50,8 +54,8 @@ export default function Queue(props: Props) {
   const classes = queueStyle();
   const history = useHistory();
   const { 
-    drawer, queueList, dialogState, patients, services,
-    setActiveQueue, setAddDialogState, setEditDialogState, addQueue, getMedicalRecord } = props;
+    activeProfile, billing, drawer, queueList, dialogState, patients, services,
+    setActiveQueue, setAddDialogState, setEditDialogState, addQueue, getMedicalRecord, setActiveBilling } = props;
 
   const openAddDialog = () => {
     setAddDialogState()
@@ -72,7 +76,8 @@ export default function Queue(props: Props) {
   const openBillingDialog = (event: any) => {
     const target = event.currentTarget;
     const { name, value } = target;
-
+    setActiveBilling(value)
+    // getBillingData(getBilling, "0hInUxBpstTSSuXxrRnl").then(() => setEditDialogState())
     setEditDialogState();
   }
 
@@ -96,7 +101,7 @@ export default function Queue(props: Props) {
             : null
           }
             <Tooltip title="Bayar">
-              <IconButton aria-label="billing" onClick={openBillingDialog}>
+              <IconButton aria-label="billing" value={item.id} onClick={openBillingDialog}>
                 <PaymentIcon />
               </IconButton>
             </Tooltip>
@@ -131,6 +136,8 @@ export default function Queue(props: Props) {
         addQueue={addQueue}
         />
       <AddBillingDialog
+        activeProfile={activeProfile}
+        billing={billing}
         open={dialogState.editPatientDialog}
         onClose={closeAddDialog}
         dialogState={setEditDialogState} />

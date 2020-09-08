@@ -5,10 +5,10 @@ import { Redirect } from 'react-router-dom';
 import Queue from '../components/queue/Queue';
 import { stateTypeObject, Dispatch } from '../reducers/types';
 import { getPatients } from '../actions/patient';
-import { getQueue, addQueue } from '../actions/queue';
+import { getQueue, addQueue, getBilling, getBillingList } from '../actions/queue';
 import { setAddDialogState, setEditDialogState } from '../actions/dialogState';
 import { getMedicalRecord } from '../actions/medicalRecord';
-import { setActiveProfile } from '../actions/activeProfile';
+import { setActiveProfile, setActiveQueue } from '../actions/activeProfile';
 
 class QueuePage extends React.Component<any, any> {
   
@@ -16,6 +16,7 @@ class QueuePage extends React.Component<any, any> {
     if (this.props.auth.uid) {
       this.props.getQueue()
       this.props.getPatients()
+      this.props.getBillingList()
     }
   }
 
@@ -25,7 +26,9 @@ class QueuePage extends React.Component<any, any> {
     if (!auth.uid) {
       return <Redirect to="/login" />
     }
-    return <Queue 
+    return <Queue
+      activeProfile={this.props.activeProfile}
+      billing={this.props.billing} 
       drawer={this.props.drawer}
       dialogState={this.props.dialogState}
       queueList={this.props.queueList}
@@ -35,7 +38,8 @@ class QueuePage extends React.Component<any, any> {
       setEditDialogState={this.props.setEditDialogState}
       addQueue={this.props.addQueue}
       getMedicalRecord={this.props.getMedicalRecord}
-      setActiveQueue={this.props.setActiveProfile}/>
+      setActiveQueue={this.props.setActiveProfile}
+      setActiveBilling={this.props.setActiveQueue}/>
   }
 }
 
@@ -43,6 +47,8 @@ function mapStateToProps(state: stateTypeObject) {
   console.log(state)
   return {
     auth: state.firebase.auth,
+    activeProfile: state.activeProfile,
+    billing: state.billing,
     drawer: state.drawer,
     dialogState: state.dialogState,
     queueList: state.queue,
@@ -60,7 +66,10 @@ function mapDispatchToProps(dispatch: Dispatch) {
       setActiveProfile,
       setAddDialogState,
       setEditDialogState,
-      getMedicalRecord
+      getMedicalRecord,
+      getBilling,
+      getBillingList,
+      setActiveQueue
     },
     dispatch
   );

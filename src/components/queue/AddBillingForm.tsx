@@ -1,30 +1,61 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import billingFormStyle from './AddBillingFormStyle';
 import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
+import activeProfile from '../../reducers/activeProfile';
 
 export interface AddBillingProps {
   editDialogState: any
+  billing: any
+  activeProfile: any
+}
+
+function sumPrice(values: any): number {
+  let totalPrice = values.reduce((accumulator: any, currentValue: any) => {
+    if (currentValue.price !== '' && currentValue.amount !== '') {
+      return accumulator + (parseInt(currentValue.amount) * parseInt(currentValue.price));
+    }
+    else {
+      return accumulator + 0;
+    }
+  }, 0)
+
+  return totalPrice;
 }
 
 export default function AddBillingForm(props: AddBillingProps) {
   const classes = billingFormStyle();
-  const { editDialogState } = props;
+  const { editDialogState, billing, activeProfile } = props;
 
-  const initialValues: any[] = [{
-    item: '',
-    amount: '',
-    price: '',
-  }]
+  const initialValues: any[] = []
+  let totalPrice: number = 0
+
+  if(billing !== undefined && !_.isEmpty(billing)) {
+    const selected = billing[activeProfile.queueId]
+    selected.items.map((item: any) => {
+      const value = {
+        item: item.name,
+        amount: 1,
+        price: item.price
+      }
+      initialValues.push(value)
+    })
+    totalPrice = selected.totalPrice;
+  }
+
   const [fields, setFields] = useState(initialValues);
-
+  const [total, setTotal] = useState(totalPrice);
   const handleChangeInput = (i: number, event: any) => {
     const values = [...fields];
     const { name, value } = event.target;
-    values[i][name] = value;
+    values[i][name] = value
     setFields(values)
-    console.log('Fields ', fields)
+    
+    if (name !== 'item') {
+      setTotal(sumPrice(values))
+    }
   }
 
   const handleAddItem = () => {
@@ -42,9 +73,6 @@ export default function AddBillingForm(props: AddBillingProps) {
     values.splice(i, 1);
     setFields(values);
   }
-
-  const fieldSet: any[] = []
-  fieldSet.push()
 
   return(
     <div>
@@ -84,6 +112,13 @@ export default function AddBillingForm(props: AddBillingProps) {
           </IconButton>
         </div>
       )})}
+      <TextField 
+        id="total"
+        className={classes.text} 
+        label="Total harga"
+        variant="outlined"
+        name="total"
+        value={total} />
       </form>
     </div>
   )

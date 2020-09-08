@@ -143,7 +143,7 @@ export default function MedicalRecord(props: MedRecProps) {
   const recordInfo = (
     <div>
       <Typography variant="body1" gutterBottom>
-        Nama hewan: {medicalRecord.pet}
+        Nama hewan: {medicalRecord.name}
       </Typography> 
       <Typography variant="subtitle2" gutterBottom>
         Pemilik: {medicalRecord.owner}

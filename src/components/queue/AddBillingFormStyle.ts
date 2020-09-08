@@ -31,7 +31,13 @@ const billingFormStyle = makeStyles((theme: Theme) =>
 
     text: {
       marginRight: 10
-    }
+    },
+    totalPrice: {
+      marginBottom: 15,
+      flex: '50%',
+      textAlign: 'right'
+    },
+
   }),
 );
 

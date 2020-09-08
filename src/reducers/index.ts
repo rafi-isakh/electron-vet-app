@@ -11,6 +11,7 @@ import patients from './patient';
 import queue from './queue';
 import medicalRecord from './medicalRecord';
 import services from './service';
+import billing from './billing';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -24,6 +25,7 @@ export default function createRootReducer(history: History) {
     patients,
     queue,
     services,
-    auth
+    auth,
+    billing
   });
 }
