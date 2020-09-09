@@ -5,6 +5,7 @@ export const ADD_QUEUE = 'ADD_QUEUE';
 export const ADD_BILLING = 'ADD_BILLING';
 export const GET_BILLING = 'GET_BILLING';
 export const GET_BILLING_LIST = 'GET_BILLING_LIST';
+export const EDIT_BILLING = 'EDIT_BILLING';
 
 export const getQueue = () => {
   return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
@@ -75,6 +76,20 @@ export const getBillingList = () => {
         payload = Object.assign(payload, {[value.queueId]: value})
       })
       dispatch({ type: GET_BILLING_LIST, payload})
+    })
+  }
+}
+
+export const editBilling = (billing: any, id: string) => {
+  return async (dispatch: Dispatch, getState: GetState, { getFirestore }:any) => {
+    const firestore = getFirestore();
+    firestore.collection('billing').doc(id).update({
+      ...billing,
+      modifiedAt: new Date()
+    })
+    .then(() => {
+      const updatedData = Object.assign({}, {'id': id}, billing)
+      dispatch({ type: EDIT_BILLING, payload: updatedData})
     })
   }
 }

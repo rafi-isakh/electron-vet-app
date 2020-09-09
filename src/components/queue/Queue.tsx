@@ -10,7 +10,6 @@ import queueStyle from './QueueStyle';
 import AddQueueDialog from './AddQueueDialog';
 import routes from '../../constants/routes.json';
 import AddBillingDialog from './AddBillingDialog';
-import { getBilling } from '../../actions/queue';
 
 type Props = {
   activeProfile: any;
@@ -24,6 +23,8 @@ type Props = {
   setAddDialogState: () => void;
   setActiveQueue: (owner: string, pet: string) => void;
   setEditDialogState: () => void;
+  addBilling: (billing: any) => void;
+  editBilling: (billing: any, id: string) => void;
   addQueue: (item: any) => void;
   getMedicalRecord: (values: any) => void
 };
@@ -55,7 +56,7 @@ export default function Queue(props: Props) {
   const history = useHistory();
   const { 
     activeProfile, billing, drawer, queueList, dialogState, patients, services,
-    setActiveQueue, setAddDialogState, setEditDialogState, addQueue, getMedicalRecord, setActiveBilling } = props;
+    setActiveQueue, setAddDialogState, setEditDialogState, addQueue, getMedicalRecord, setActiveBilling, addBilling, editBilling } = props;
 
   const openAddDialog = () => {
     setAddDialogState()
@@ -140,7 +141,9 @@ export default function Queue(props: Props) {
         billing={billing}
         open={dialogState.editPatientDialog}
         onClose={closeAddDialog}
-        dialogState={setEditDialogState} />
+        dialogState={setEditDialogState} 
+        addBilling={addBilling}
+        editBilling={editBilling}/>
       <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>

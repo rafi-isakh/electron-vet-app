@@ -10,11 +10,13 @@ export interface AddBillingProps {
   open: boolean;
   onClose: (value: string) => void;
   dialogState: any;
+  addBilling: any;
+  editBilling: any;
 }
 
 function AddBillingDialog(props: AddBillingProps) {
   const classes = addQueueDialogStyle();
-  const { onClose, open, dialogState, billing, activeProfile } = props;
+  const { onClose, open, dialogState, billing, activeProfile, addBilling, editBilling } = props;
 
   const handleClose = () => {
     onClose("Close dialog")
@@ -31,7 +33,12 @@ function AddBillingDialog(props: AddBillingProps) {
       <ReceiptIcon className={classes.dialogTitleIcon}/>
         <h2>Data pembayaran</h2>
       </DialogTitle>
-      <AddBillingForm editDialogState={dialogState} billing={billing} activeProfile={activeProfile}/>
+      <AddBillingForm 
+        editDialogState={dialogState} 
+        billing={billing} 
+        activeProfile={activeProfile}
+        addBilling={addBilling}
+        editBilling={editBilling}/>
     </Dialog>
   )
 }

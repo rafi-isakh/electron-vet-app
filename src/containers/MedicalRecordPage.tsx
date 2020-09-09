@@ -20,9 +20,6 @@ class MedicalRecordPage extends React.Component<any, any> {
     if (_.isEmpty(this.props.services)) {
       this.props.getServices()
     }
-    if (_.isEmpty(this.props.services)) {
-      this.props.getServices()
-    }
   }
 
   public render() {

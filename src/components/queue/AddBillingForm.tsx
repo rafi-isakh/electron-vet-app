@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import _ from 'lodash';
+import _, { values } from 'lodash';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
@@ -8,6 +8,8 @@ import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
 import activeProfile from '../../reducers/activeProfile';
 
 export interface AddBillingProps {
+  addBilling: any
+  editBilling: any
   editDialogState: any
   billing: any
   activeProfile: any
@@ -39,9 +41,13 @@ function formatPrice(price: number): string {
   return new Intl.NumberFormat('id-ID', options).format(price);
 }
 
+function isPaid(billing: any): boolean {
+  return billing !== undefined && billing.status === 'Paid';
+}
+
 export default function AddBillingForm(props: AddBillingProps) {
   const classes = billingFormStyle();
-  const { editDialogState, billing, activeProfile } = props;
+  const { editDialogState, billing, activeProfile, addBilling, editBilling } = props;
 
   const initialValues: any[] = []
   let totalPrice: number = 0
@@ -100,6 +106,24 @@ export default function AddBillingForm(props: AddBillingProps) {
     setFields(values);
   }
 
+  const handlePaymentButton = () => {
+    const existingBilling = billing[activeProfile.queueId]
+    const data = {
+      items: [...fields],
+      queueId: activeProfile.queueId,
+      totalPrice: total,
+      status: 'Paid'
+    }
+    if (existingBilling !== undefined) {
+      editBilling(data, existingBilling.id)
+    }
+    else {
+      addBilling(data)
+    }
+
+    editDialogState()
+  }
+
   return(
     <div>
       <form className={classes.root} noValidate autoComplete="off">
@@ -146,15 +170,28 @@ export default function AddBillingForm(props: AddBillingProps) {
         variant="outlined"
         name="total"
         value={formatPrice(total)} />
-       <Button
+       {!isPaid(billing[activeProfile.queueId]) ? 
+        <Button
           variant="contained"
           color="default"
           size="small"
           startIcon={<AccountBalanceWalletIcon />}
-          // onClick={openAddDialog}
+          onClick={handlePaymentButton}
         >
           Bayar
         </Button>
+        :
+        <Button
+          variant="contained"
+          color="default"
+          size="small"
+          startIcon={<AccountBalanceWalletIcon />}
+          onClick={editDialogState}
+        >
+          Lunas
+        </Button>
+      } 
+       
       </div>
       </form>
     </div>
