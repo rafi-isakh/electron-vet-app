@@ -1,5 +1,5 @@
 import { QueueActions } from "../types/Queue";
-import { GET_QUEUE_LIST, ADD_QUEUE, ADD_BILLING } from "../actions/queue";
+import { GET_QUEUE_LIST, ADD_QUEUE, EDIT_QUEUE, ADD_BILLING, EDIT_BILLING } from "../actions/queue";
 
 const initialState: any = {}
 
@@ -20,6 +20,11 @@ export default function queue (state = initialState, action: QueueActions) {
           ...state[queueId],
           billing: action.payload.billing
         }
+      }
+    case EDIT_BILLING:
+      return {
+        ...state,
+        [action.payload.id]: action.payload
       }
     default:
       return state;

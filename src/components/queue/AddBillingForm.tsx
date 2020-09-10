@@ -120,7 +120,6 @@ export default function AddBillingForm(props: AddBillingProps) {
     else {
       addBilling(data)
     }
-
     editDialogState()
   }
 

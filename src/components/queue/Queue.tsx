@@ -10,6 +10,7 @@ import queueStyle from './QueueStyle';
 import AddQueueDialog from './AddQueueDialog';
 import routes from '../../constants/routes.json';
 import AddBillingDialog from './AddBillingDialog';
+import { editQueue } from '../../actions/queue';
 
 type Props = {
   activeProfile: any;
@@ -26,6 +27,7 @@ type Props = {
   addBilling: (billing: any) => void;
   editBilling: (billing: any, id: string) => void;
   addQueue: (item: any) => void;
+  editQueue: (item: any, id: string) => void;
   getMedicalRecord: (values: any) => void
 };
 
@@ -51,12 +53,25 @@ function groupServiceByCategory(services: any): any {
   return serviceGroup
 }
 
+function updateQueueStatus(billing: any, queueList: any, editQueue: any) {
+  for (const [key, value] of Object.entries(queueList)) {
+    const billingItem = billing[key]
+    if (billingItem !== undefined && billingItem.status === 'Paid') {
+      let updatedQueue = queueList[key]
+      if (updatedQueue !== undefined && updatedQueue.status !== 'Lunas') {
+        updatedQueue['status'] = 'Lunas'
+        editQueue(updatedQueue, key)
+      }
+    }
+  }
+}
+
 export default function Queue(props: Props) {
   const classes = queueStyle();
   const history = useHistory();
   const { 
     activeProfile, billing, drawer, queueList, dialogState, patients, services,
-    setActiveQueue, setAddDialogState, setEditDialogState, addQueue, getMedicalRecord, setActiveBilling, addBilling, editBilling } = props;
+    setActiveQueue, setAddDialogState, setEditDialogState, addQueue, getMedicalRecord, setActiveBilling, addBilling, editBilling, editQueue } = props;
 
   const openAddDialog = () => {
     setAddDialogState()
@@ -78,7 +93,6 @@ export default function Queue(props: Props) {
     const target = event.currentTarget;
     const { name, value } = target;
     setActiveBilling(value)
-    // getBillingData(getBilling, "0hInUxBpstTSSuXxrRnl").then(() => setEditDialogState())
     setEditDialogState();
   }
 
@@ -93,7 +107,7 @@ export default function Queue(props: Props) {
           <TableCell align="left">{item.treatment}</TableCell>
           <TableCell align="left">{item.status}</TableCell>
           <TableCell align="left">
-          {item.treatment === 'Pemeriksaan' ?
+          {item.treatment === 'Pemeriksaan' && item.status !== 'Lunas' ?
             <Tooltip title="Periksa">
               <IconButton aria-label="edit" value={item.name} name={item.owner} onClick={handleCheck}>
                 <CheckBoxIcon fontSize="small"/>
@@ -101,11 +115,14 @@ export default function Queue(props: Props) {
             </Tooltip>
             : null
           }
+          {item.status !== 'Lunas' ?
             <Tooltip title="Bayar">
               <IconButton aria-label="billing" value={item.id} onClick={openBillingDialog}>
                 <PaymentIcon />
               </IconButton>
             </Tooltip>
+            : null
+          }
           </TableCell>
         </TableRow>
       ))}
@@ -115,6 +132,7 @@ export default function Queue(props: Props) {
     tableContents = <TableBody />
   }
 
+  updateQueueStatus(billing, queueList, editQueue)
   return (
     <div className={drawer ? classes.shiftRight : classes.root}>
       <CssBaseline />

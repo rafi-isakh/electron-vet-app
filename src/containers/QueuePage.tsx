@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import Queue from '../components/queue/Queue';
 import { stateTypeObject, Dispatch } from '../reducers/types';
 import { getPatients } from '../actions/patient';
-import { getQueue, addQueue, getBilling, getBillingList, addBilling, editBilling } from '../actions/queue';
+import { getQueue, addQueue, getBilling, getBillingList, addBilling, editBilling, editQueue } from '../actions/queue';
 import { setAddDialogState, setEditDialogState } from '../actions/dialogState';
 import { getMedicalRecord } from '../actions/medicalRecord';
 import { setActiveProfile, setActiveQueue } from '../actions/activeProfile';
@@ -33,6 +33,7 @@ class QueuePage extends React.Component<any, any> {
       drawer={this.props.drawer}
       dialogState={this.props.dialogState}
       editBilling={this.props.editBilling}
+      editQueue={this.props.editQueue}
       queueList={this.props.queueList}
       patients={this.props.patients}
       services={this.props.services}
@@ -65,6 +66,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       getPatients,
       getQueue,
       addQueue,
+      editQueue,
       setActiveProfile,
       setAddDialogState,
       setEditDialogState,
