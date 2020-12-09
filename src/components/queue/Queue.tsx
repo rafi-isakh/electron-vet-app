@@ -10,7 +10,6 @@ import queueStyle from './QueueStyle';
 import AddQueueDialog from './AddQueueDialog';
 import routes from '../../constants/routes.json';
 import AddBillingDialog from './AddBillingDialog';
-import { editQueue } from '../../actions/queue';
 
 type Props = {
   activeProfile: any;
@@ -91,12 +90,11 @@ export default function Queue(props: Props) {
 
   const openBillingDialog = (event: any) => {
     const target = event.currentTarget;
-    const { name, value } = target;
+    const { value } = target;
     setActiveBilling(value)
     setEditDialogState();
   }
 
-  const serviceList = groupServiceByCategory(services)
   let tableContents
   if (queueList !== undefined && !_.isEmpty(queueList)) {
     tableContents = (<TableBody>

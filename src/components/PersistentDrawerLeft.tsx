@@ -29,13 +29,14 @@ type Props = {
   signOut: () =>void;
   drawer: boolean;
   auth: any;
+  user: any;
   children: ReactNode;
 };
 
 export default function PersistentDrawerLeft(props: Props) {
   const classes = drawerStyles();
   const theme = useTheme();
-  const { signOut, setDrawer, drawer } = props;
+  const { signOut, setDrawer, auth, drawer, user} = props;
 
   const handleDrawerOpen = () => {
     setDrawer();
@@ -48,6 +49,12 @@ export default function PersistentDrawerLeft(props: Props) {
   const handleDrawerClose = () => {
     setDrawer();
   };
+
+  const getUserRole = () => {
+    const profile = user[auth.uid]
+    return profile !== undefined ? profile.role : ""
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -110,12 +117,15 @@ export default function PersistentDrawerLeft(props: Props) {
             </ListItemIcon>
             <ListItemText primary="Rekam Medis" />
           </ListItem>
-          <ListItem button key="layanan" component={Link} to={routes.SERVICE}>
-            <ListItemIcon>
-              <PetsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Layanan" />
-          </ListItem>
+          {getUserRole() === 'admin' ?
+            <ListItem button key="layanan" component={Link} to={routes.SERVICE}>
+              <ListItemIcon>
+                <PetsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Layanan" />
+            </ListItem>
+            : null 
+          }
           <Divider />
           <ListItem button key="logout" component={Link} to={routes.LOGIN} onClick={handleLogout}>
             <ListItemIcon>

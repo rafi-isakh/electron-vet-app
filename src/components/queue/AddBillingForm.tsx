@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import _, { values } from 'lodash';
+import _ from 'lodash';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import billingFormStyle from './AddBillingFormStyle';
-import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
-import activeProfile from '../../reducers/activeProfile';
+import { TextField, Button, IconButton } from '@material-ui/core';
 
 export interface AddBillingProps {
   addBilling: any

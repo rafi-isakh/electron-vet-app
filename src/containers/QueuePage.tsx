@@ -9,11 +9,13 @@ import { getQueue, addQueue, getBilling, getBillingList, addBilling, editBilling
 import { setAddDialogState, setEditDialogState } from '../actions/dialogState';
 import { getMedicalRecord } from '../actions/medicalRecord';
 import { setActiveProfile, setActiveQueue } from '../actions/activeProfile';
+import { getUserInfo } from '../actions/userInfo';
 
 class QueuePage extends React.Component<any, any> {
   
   componentDidMount() {
     if (this.props.auth.uid) {
+      this.props.getUserInfo()
       this.props.getQueue()
       this.props.getPatients()
       this.props.getBillingList()
@@ -75,7 +77,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
       editBilling,
       getBilling,
       getBillingList,
-      setActiveQueue
+      setActiveQueue,
+      getUserInfo
     },
     dispatch
   );

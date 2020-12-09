@@ -10,11 +10,11 @@ class PersistentDrawer extends React.Component<any, any> {
 
   public render() {
     const { auth } = this.props
-    
     if(auth.uid) {
       return <PersistentDrawerLeft
         auth={auth} 
         drawer={this.props.drawer}
+        user={this.props.user}
         setDrawer={this.props.setDrawer}
         signOut={this.props.signOut}
         children={this.props.children}/>
@@ -25,8 +25,9 @@ class PersistentDrawer extends React.Component<any, any> {
 
 function mapStateToProps(state: stateTypeObject) {
   return {
+    auth: state.firebase.auth,
     drawer: state.drawer,
-    auth: state.firebase.auth
+    user: state.loginInfo
   };
 }
 

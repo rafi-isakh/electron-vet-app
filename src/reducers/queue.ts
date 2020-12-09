@@ -1,5 +1,5 @@
 import { QueueActions } from "../types/Queue";
-import { GET_QUEUE_LIST, ADD_QUEUE, EDIT_QUEUE, ADD_BILLING, EDIT_BILLING } from "../actions/queue";
+import { GET_QUEUE_LIST, ADD_QUEUE, ADD_BILLING, EDIT_BILLING } from "../actions/queue";
 
 const initialState: any = {}
 

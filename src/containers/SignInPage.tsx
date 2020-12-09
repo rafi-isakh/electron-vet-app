@@ -4,8 +4,15 @@ import { Dispatch, stateTypeObject } from '../reducers/types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { signIn, setCredential } from '../actions/auth';
+import { getUserInfo } from '../actions/userInfo';
 
 class SignInPage extends React.Component<any, any> {
+
+  componentDidMount() {
+    if (this.props.auth.uid) {
+      this.props.getUserInfo()
+    }
+  }
 
   public render() {
     const { authStatus } = this.props
@@ -28,7 +35,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
       signIn,
-      setCredential
+      setCredential,
+      getUserInfo
     },
     dispatch
   );

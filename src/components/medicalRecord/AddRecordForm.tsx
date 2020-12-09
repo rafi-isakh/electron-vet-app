@@ -68,8 +68,7 @@ export default function AddRecordForm(props: AddRecordProps) {
         [index]: recordItem
       }
     }
-
-    // addRecord(record)
+    addRecord(record)
 
     const billing = generateBilling(queueId, services, priceList)
     addBilling(billing)

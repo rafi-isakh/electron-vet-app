@@ -8,14 +8,16 @@ export const signIn = (credentials: any) => {
   return async (dispatch: Dispatch, getState: GetState, { getFirebase }:any) => {
     const firebase = getFirebase();
 
-    firebase.auth().signInWithEmailAndPassword(
-      credentials.email,
-      credentials.password
-    ).then(() => {
-      dispatch({ type: LOGIN_SUCCESS })
-    }).catch((err: any) => {
-      dispatch({type: 'LOGIN_ERROR', err})
-    })
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+      firebase.auth().signInWithEmailAndPassword(
+        credentials.email,
+        credentials.password
+      ).then(() => {
+        dispatch({ type: LOGIN_SUCCESS })
+      }).catch((err: any) => {
+        dispatch({type: 'LOGIN_ERROR', err})
+      })
+    });
   }
 }
 

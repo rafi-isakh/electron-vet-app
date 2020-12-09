@@ -39,7 +39,7 @@ function formatPrice(price: number): string {
 export default function Service(props: ServiceProps) {
   const classes = serviceStyle();
   const { 
-    activeProfile, auth, dialogState, drawer, services, 
+    activeProfile, dialogState, drawer, services, 
     setActiveProfile, setAddDialogState, setEditDialogState, setDeleteDialogState, addService, editService, deleteService } = props;
   const initialSearch: any[] = []
 

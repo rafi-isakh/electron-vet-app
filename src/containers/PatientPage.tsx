@@ -6,12 +6,14 @@ import Patient from '../components/patient/Patient';
 import { setActiveProfile } from '../actions/activeProfile';
 import { setAddDialogState, setEditDialogState, setDeleteDialogState } from '../actions/dialogState';
 import { addPatient, getPatients, editPatient, deletePatient } from '../actions/patient';
+import { getUserInfo } from '../actions/userInfo';
 
 class PatientPage extends React.Component<any, any> {
   
   componentDidMount() {
     if (!this.props.auth.isEmpty) {
       this.props.getPatients()
+      this.props.getUserInfo()
     }
   }
 
@@ -57,7 +59,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
       addPatient,
       editPatient,
       deletePatient,
-      getPatients
+      getPatients,
+      getUserInfo
     },
     dispatch
   );
