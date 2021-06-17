@@ -47,7 +47,7 @@ const patientPageStyle = makeStyles((theme: Theme) =>
     searchBox: {
       display: 'flex',
       alignItems: 'center',
-      width: '25%',
+      width: '35%',
     },
 }));
 

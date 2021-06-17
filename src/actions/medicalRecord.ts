@@ -10,7 +10,7 @@ export const getMedicalRecord = (data: any) => {
     let payload = {}
     firestore.collection('medical_records')
       .where('owner', '==', data.owner)
-      .where('pet', '==', data.name)
+      .where('name', '==', data.name)
       .get().then((record: any) => {
         record.forEach((item: any) => {
           payload = Object.assign({}, {'id': item.id}, item.data());

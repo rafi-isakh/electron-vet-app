@@ -43,6 +43,7 @@ export default function Patient(props: Props) {
 
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('');
+  const [petName, setPetName] = React.useState('');
   const [search, setSearch] = React.useState(initialSearch);
   const deleteMessage = "Do you want to delete this item ?";
   
@@ -71,6 +72,24 @@ export default function Patient(props: Props) {
     setSearch(test)
   }
 
+  const handlePetSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.currentTarget;
+    const { value } = target;
+    event.persist();
+    setPetName(value);
+    let typedWord = _.values(patients).filter((patient: any) => {
+      if (patient.pets !== undefined) {
+        let pets = Object.values(patient.pets)
+        let petName = pets.map((pet: any) => pet.name.toLowerCase())
+        if (petName.includes(value.toLowerCase())) {
+          return patient.name;
+        }
+      }
+      return "";
+    })
+    setSearch(typedWord);
+  }
+
   const openAddDialog = () => {
     setAddDialogState()
   }
@@ -95,7 +114,8 @@ export default function Patient(props: Props) {
 
   let tableContents
   let dataSource
-  if(patients === search || name === '') {
+  let filledSearch = (name === '' && petName !== '') || (name !== '' && petName === '')
+  if(patients === search || !filledSearch) {
     dataSource = patients
   }
   else {
@@ -163,10 +183,20 @@ export default function Patient(props: Props) {
         <Paper className={classes.searchBox}>
           <InputBase
             className={classes.input}
-            placeholder="Cari Pasien"
+            placeholder="Cari Pemilik"
             inputProps={{ 'aria-label': 'search google maps' }}
             onChange={handleSearch}
             value={name}
+          />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+          <InputBase
+            className={classes.input}
+            placeholder="Cari Hewan"
+            inputProps={{ 'aria-label': 'search google maps' }}
+            onChange={handlePetSearch}
+            value={petName}
           />
           <IconButton type="submit" className={classes.iconButton} aria-label="search">
             <SearchIcon />
@@ -191,7 +221,7 @@ export default function Patient(props: Props) {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Nama Pasien</TableCell>
+            <TableCell>Nama Pemilik</TableCell>
             <TableCell align="left">Alamat</TableCell>
             <TableCell align="left">No Telepon&nbsp;</TableCell>
             <TableCell align="left" />
