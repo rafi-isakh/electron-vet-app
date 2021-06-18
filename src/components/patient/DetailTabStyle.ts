@@ -23,6 +23,11 @@ const detailTabStyle = makeStyles((theme: Theme) => ({
 
   textInput: {
     marginRight: 20
+  },
+
+  selectInput: {
+    marginTop: 15,
+    marginRight: 20
   }
 }));
 

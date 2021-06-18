@@ -5,7 +5,8 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import detailTabStyle from './DetailTabStyle';
-import { Paper, Tabs, Tab, TableRow, TableContainer, Table, TableHead, TableCell, TableBody, TextField, Snackbar, SnackbarOrigin } from '@material-ui/core';
+import { Paper, Tabs, Tab, TableRow, TableContainer, Table, TableHead, TableCell, 
+  TableBody, TextField, Snackbar, SnackbarOrigin, Select } from '@material-ui/core';
 import DetailTabPanel from './DetailTabPanel';
 
 type detailTabProps = {
@@ -64,6 +65,12 @@ export default function DetailTab(props: detailTabProps) {
     event.persist();
     setPet({...pet, [name]: value})
   }
+
+  const handleSelectInput = (event: any) => {
+    const name = event.target.name;
+    event.persist();
+    setPet({...pet, [name]: event.target.value});
+  };
 
   const handleSubmit = () => {
     if (pet.name !== '' && pet.pet !== '') {
@@ -148,8 +155,31 @@ export default function DetailTab(props: detailTabProps) {
         <div>
           <form className={classes.inputField} noValidate autoComplete="off">
             <TextField className={classes.textInput} name="name" label="Nama" onChange={handleForm} value={pet.name}/>
-            <TextField className={classes.textInput} name="pet" label="Jenis hewan" onChange={handleForm} value={pet.pet}/>
-            <TextField className={classes.textInput} name="gender" label="Gender" onChange={handleForm} value={pet.gender}/>
+            <Select
+              native
+              className={classes.selectInput}
+              id="demo-simple-select"
+              name="pet"
+              value={pet.pet}
+              onChange={handleSelectInput}
+            >
+              <option value="" disabled>Hewan</option>
+              <option value={"Kucing"}>Kucing</option>
+              <option value={"Anjing"}>Anjing</option>
+              <option value={"Lainnya"}>Lainnya</option>
+            </Select>
+            <Select
+              native
+              className={classes.selectInput}
+              id="demo-simple-select"
+              name="gender"
+              value={pet.gender}
+              onChange={handleSelectInput}
+            >
+              <option value="" disabled>Gender</option>
+              <option value={"Jantan"}>Jantan</option>
+              <option value={"Betina"}>Betina</option>
+            </Select>
             <IconButton color="primary" aria-label="add pet" component="span" onClick={handleSubmit}>
               <AddCircleOutlineOutlinedIcon />
             </IconButton>
